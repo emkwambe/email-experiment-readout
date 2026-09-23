@@ -1,0 +1,231 @@
+{
+  "manifest": {
+    "commit_sha": "9a10a47f1fc6e84396b88661b2281602c6b764b8",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-23T23:05:31Z",
+    "script": "python -m liftlab.run --stage sprint1",
+    "seed": 20260923,
+    "stage": "sprint1"
+  },
+  "basis": "assumed_parameters",
+  "label": "Planning values from assumed parameters, not observed outcomes.",
+  "alpha_per_test": 0.025,
+  "sides": 2,
+  "power": 0.8,
+  "method": "Normal approximation; MDE = (z_{1-alpha/2} + z_power) * sd * sqrt(1/n_t + 1/n_c); proportions use sd = sqrt(p(1-p)) at the assumed baseline",
+  "proportions": [
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.005,
+      "mde_absolute": 0.002106844017620748,
+      "mde_relative": 0.42136880352414957
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.01,
+      "mde_absolute": 0.0029720317052754994,
+      "mde_relative": 0.29720317052754996
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.02,
+      "mde_absolute": 0.004181805952731677,
+      "mde_relative": 0.20909029763658382
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.1,
+      "mde_absolute": 0.008961012755853596,
+      "mde_relative": 0.08961012755853595
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.15,
+      "mde_absolute": 0.010665738540531327,
+      "mde_relative": 0.07110492360354219
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.2,
+      "mde_absolute": 0.011948017007804793,
+      "mde_relative": 0.05974008503902396
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.005,
+      "mde_absolute": 0.002104872931860938,
+      "mde_relative": 0.4209745863721876
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.01,
+      "mde_absolute": 0.0029692511817422072,
+      "mde_relative": 0.29692511817422074
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "conversion_rate",
+      "assumed_baseline_rate": 0.02,
+      "mde_absolute": 0.004177893608915629,
+      "mde_relative": 0.20889468044578144
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.1,
+      "mde_absolute": 0.008952629161962065,
+      "mde_relative": 0.08952629161962065
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.15,
+      "mde_absolute": 0.010655760067906271,
+      "mde_relative": 0.07103840045270848
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "visit_rate",
+      "assumed_baseline_rate": 0.2,
+      "mde_absolute": 0.011936838882616086,
+      "mde_relative": 0.05968419441308043
+    }
+  ],
+  "revenue_per_customer": [
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 5.0,
+      "mde_dollars": 0.1493502125975599
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 10.0,
+      "mde_dollars": 0.2987004251951198
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 15.0,
+      "mde_dollars": 0.4480506377926798
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 20.0,
+      "mde_dollars": 0.5974008503902396
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Mens E-Mail vs No E-Mail",
+      "n_treatment": 21307,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 30.0,
+      "mde_dollars": 0.8961012755853596
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 5.0,
+      "mde_dollars": 0.14921048603270107
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 10.0,
+      "mde_dollars": 0.29842097206540213
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 15.0,
+      "mde_dollars": 0.4476314580981032
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 20.0,
+      "mde_dollars": 0.5968419441308043
+    },
+    {
+      "basis": "assumed_parameters",
+      "contrast": "Womens E-Mail vs No E-Mail",
+      "n_treatment": 21387,
+      "n_control": 21306,
+      "metric": "revenue_per_customer",
+      "assumed_sd_dollars": 30.0,
+      "mde_dollars": 0.8952629161962063
+    }
+  ]
+}

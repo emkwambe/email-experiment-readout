@@ -1,0 +1,27 @@
+{
+  "manifest": {
+    "commit_sha": "9a10a47f1fc6e84396b88661b2281602c6b764b8",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-23T23:05:31Z",
+    "script": "python -m liftlab.run --stage sprint1",
+    "seed": 20260923,
+    "stage": "sprint1"
+  },
+  "observed": {
+    "Mens E-Mail": 21307,
+    "Womens E-Mail": 21387,
+    "No E-Mail": 21306
+  },
+  "expected": {
+    "Mens E-Mail": 21333.333333333332,
+    "Womens E-Mail": 21333.333333333332,
+    "No E-Mail": 21333.333333333332
+  },
+  "total": 64000,
+  "df": 2,
+  "chi_square": 0.20253125000000002,
+  "p_value": 0.9036929575604196,
+  "halt_threshold": 0.001,
+  "halt": false
+}

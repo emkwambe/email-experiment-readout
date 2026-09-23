@@ -1,0 +1,306 @@
+{
+  "manifest": {
+    "commit_sha": "9a10a47f1fc6e84396b88661b2281602c6b764b8",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-23T23:05:31Z",
+    "script": "python -m liftlab.run --stage sprint1",
+    "seed": 20260923,
+    "stage": "sprint1"
+  },
+  "flag_threshold": 0.1,
+  "method": "SMD = (mean_treated - mean_control) / sqrt((var_treated + var_control) / 2), sample variances; categoricals one-hot",
+  "n_covariates": 18,
+  "n_flagged": 0,
+  "max_abs_smd": 0.016359543173779502,
+  "rows": [
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "recency",
+      "smd": 0.006831532454259954,
+      "abs_smd": 0.006831532454259954,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history",
+      "smd": 0.00761286832154239,
+      "abs_smd": 0.00761286832154239,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "mens",
+      "smd": -0.0045823256374879625,
+      "abs_smd": 0.0045823256374879625,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "womens",
+      "smd": 0.007588929691887142,
+      "abs_smd": 0.007588929691887142,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "newbie",
+      "smd": -0.0008918953696535328,
+      "abs_smd": 0.0008918953696535328,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=1) $0 - $100",
+      "smd": 0.010916720554376393,
+      "abs_smd": 0.010916720554376393,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=2) $100 - $200",
+      "smd": -0.016359543173779502,
+      "abs_smd": 0.016359543173779502,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=3) $200 - $350",
+      "smd": 0.005470713585408414,
+      "abs_smd": 0.005470713585408414,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=4) $350 - $500",
+      "smd": -0.004257423463175294,
+      "abs_smd": 0.004257423463175294,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=5) $500 - $750",
+      "smd": -0.009740129383845251,
+      "abs_smd": 0.009740129383845251,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=6) $750 - $1,000",
+      "smd": 0.006073217597584176,
+      "abs_smd": 0.006073217597584176,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=7) $1,000 +",
+      "smd": 0.015834592826810663,
+      "abs_smd": 0.015834592826810663,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Rural",
+      "smd": 0.01365900039927897,
+      "abs_smd": 0.01365900039927897,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Surburban",
+      "smd": -0.01174335672606268,
+      "abs_smd": 0.01174335672606268,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Urban",
+      "smd": 0.0019722315768513645,
+      "abs_smd": 0.0019722315768513645,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Multichannel",
+      "smd": -0.004181536419632754,
+      "abs_smd": 0.004181536419632754,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Phone",
+      "smd": -0.008275992307117473,
+      "abs_smd": 0.008275992307117473,
+      "flag": false
+    },
+    {
+      "arm": "Mens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Web",
+      "smd": 0.011013588354428299,
+      "abs_smd": 0.011013588354428299,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "recency",
+      "smd": 0.005180013205688683,
+      "abs_smd": 0.005180013205688683,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history",
+      "smd": 0.006510722458553667,
+      "abs_smd": 0.006510722458553667,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "mens",
+      "smd": -0.008630731202832915,
+      "abs_smd": 0.008630731202832915,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "womens",
+      "smd": 0.004946313992582152,
+      "abs_smd": 0.004946313992582152,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "newbie",
+      "smd": 0.0025567009140795606,
+      "abs_smd": 0.0025567009140795606,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=1) $0 - $100",
+      "smd": -0.0006771130829583109,
+      "abs_smd": 0.0006771130829583109,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=2) $100 - $200",
+      "smd": -0.014286147854542706,
+      "abs_smd": 0.014286147854542706,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=3) $200 - $350",
+      "smd": 0.011350888687263824,
+      "abs_smd": 0.011350888687263824,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=4) $350 - $500",
+      "smd": 0.008677899940116288,
+      "abs_smd": 0.008677899940116288,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=5) $500 - $750",
+      "smd": 0.0006499424018974358,
+      "abs_smd": 0.0006499424018974358,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=6) $750 - $1,000",
+      "smd": -0.008819306801837288,
+      "abs_smd": 0.008819306801837288,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "history_segment=7) $1,000 +",
+      "smd": 0.0034993920645670033,
+      "abs_smd": 0.0034993920645670033,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Rural",
+      "smd": 0.00395850560137286,
+      "abs_smd": 0.00395850560137286,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Surburban",
+      "smd": -0.0010891197386245202,
+      "abs_smd": 0.0010891197386245202,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "zip_code=Urban",
+      "smd": -0.0017628666291550237,
+      "abs_smd": 0.0017628666291550237,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Multichannel",
+      "smd": -0.00528289712504171,
+      "abs_smd": 0.00528289712504171,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Phone",
+      "smd": 0.008622833281250204,
+      "abs_smd": 0.008622833281250204,
+      "flag": false
+    },
+    {
+      "arm": "Womens E-Mail",
+      "control": "No E-Mail",
+      "covariate": "channel=Web",
+      "smd": -0.005147863897421752,
+      "abs_smd": 0.005147863897421752,
+      "flag": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "manifest": {
+    "commit_sha": "9a10a47f1fc6e84396b88661b2281602c6b764b8",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-23T23:05:31Z",
+    "script": "python -m liftlab.run --stage sprint1",
+    "seed": 20260923,
+    "stage": "sprint1"
+  },
+  "files": [
+    {
+      "file": "integrity.json",
+      "sha256": "55aa7d3261d19c27ed14af082d4111defc950f1122ce7380f7f26f712ce6686d"
+    },
+    {
+      "file": "srm.json",
+      "sha256": "d59b27cc27ada15d6882516c9aa8479396c86202538160cc95e0a06183f3f391"
+    },
+    {
+      "file": "balance.json",
+      "sha256": "df4d3c5abf49f885791d8d112c287414ce73f092e5d11a0536fa413c98e79c38"
+    },
+    {
+      "file": "power.json",
+      "sha256": "818669a9b8d73472f9aacde6027aaf523b9bba76da0db3030f546c5d1837acba"
+    }
+  ],
+  "summary": {
+    "integrity_passed": true,
+    "srm_p_value": 0.9036929575604196,
+    "srm_halt": false,
+    "balance_n_flagged": 0,
+    "halted": false
+  }
+}
