@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "88c6236646ca569a78d4dc0b5c72255edf0476f2",
+    "commit_sha": "77d4a07682fa7330da913b09fe6c32a545d2b360",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-23T23:18:14Z",
+    "generated_utc": "2026-09-23T23:40:53Z",
     "script": "python -m liftlab.run --stage sprint1",
     "seed": 20260923,
     "stage": "sprint1"
@@ -16,19 +16,19 @@
   "files": [
     {
       "file": "integrity.json",
-      "sha256": "7d0cb6d5d7c8ff371d3bba5538733e207c53054250f00e54f169bfd260b76721"
+      "sha256": "d669060bf9a20b197e1f031f64da9d9a949bf94ea7d8d63b505b8e187462b801"
     },
     {
       "file": "srm.json",
-      "sha256": "d5b886df74125a4be29a9b3e1604ac3bc5f87898aae6c7ffa63560b5032d3846"
+      "sha256": "a8b0bdee89b004982375250599ff1aa9fe426ebd6a2bcb911c6d7ac7f5b52b1e"
     },
     {
       "file": "balance.json",
-      "sha256": "7447b14144233624e7a0f0360533b6e2e806fdc01c244e58887385cb4315b97b"
+      "sha256": "b91c8478517ae58c48e76c5d2643fed77a90c3dba02beace3c90bdc48c865173"
     },
     {
       "file": "power.json",
-      "sha256": "3afd2b02399dbef3e39b8bc92159cdc8ee7a5ef28d4203df64989d38b4940063"
+      "sha256": "5ba20ecf934fa0e2eec868ee9db9d44bb728d134a16cd8eeb49a555af19955e7"
     }
   ],
   "summary": {
