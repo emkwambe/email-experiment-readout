@@ -28,3 +28,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Before committing, Claude Code ran the install from a directory outside the repo and got `does not appear to be a Python project`.
 - **Fix:** Removed `-e .` from `requirements.txt`. Added one absolute-path command to the CLAUDE.md Commands section: `python.exe -m pip install -e C:\dev\liftlab-email-experiment\analysis`. Both commands were re-verified from outside the repo, and `import liftlab` succeeded. Committed with the Step 2 scaffold.
 - **Lesson / guard added:** Test setup commands from a directory other than the repo root, because a relative path can pass by accident when run from the repo.
+
+**2026-09-23 · Sprint 1 · Unverified explanation of the dataset hash difference**
+- **What was produced:** Claude Code's draft of `docs\data-source.md` said the local file's SHA-256 differed from the canonical MineThatData CSV "because the canonical file uses CRLF line endings and the loader re-serialises the data with pandas."
+- **What was wrong:** Only half of that was right. Claude Code then compared the files directly and found the loader changes nothing: the local file is byte-identical to the decompressed scikit-uplift mirror. The byte differences are between the mirror and the canonical file: CRLF line endings, and integer-valued `spend` written as `0.0` in the mirror. The first explanation had not been checked.
+- **How it was caught:** Before committing, Claude Code checked its own claim. It stripped CR from the canonical file and diffed it against the local file (they still differed on `0` vs `0.0`), then hashed the decompressed mirror (`00a6a868…`, the same as the local file).
+- **Fix:** The cross-check is now computed in code (`liftlab.load.cross_check`): mirror byte identity, the canonical file's SHA-256, and parsed-content identity. The doc renders those results, and the prose explanation matches what was observed. Committed with the Step 3 loader.
+- **Lesson / guard added:** Any claim in a generated doc about why two artifacts differ must be backed by a check the code runs, not stated from inference.
