@@ -42,3 +42,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code reviewed its own web code against rule 1 before the first build, looking for literal numbers in the page and label files.
 - **Fix:** `integrity.json` now exports `expected_row_count`. The gate label reads "documented population size", and the page shows both counts from JSON. The group count is computed from the arms in `srm.json`. Committed with the Step 7 web scaffold.
 - **Lesson / guard added:** Review every web page and label file for literal numbers before building. The one intentional exception is `web/content/analysis-plan.md`, which is the locked plan rendered verbatim; a test checks that it is byte-identical to `docs/analysis-plan.md`.
+
+**2026-09-23 · Sprint 1 · Display defects on /checks**
+- **What was produced:** Claude Code's first version of `/checks`.
+- **What was wrong:** Gate names showed literal Markdown backticks (`` `zip_code` contains only… ``). The power banner said "Planning values from assumed parameters" twice. On narrow screens the header nav did not wrap and pushed the page wider than the viewport.
+- **How it was caught:** Claude Code reviewed headless-browser screenshots of the locally built site before deploying.
+- **Fix:** Plain-text gate labels in `web/lib/labels.ts`, a single banner heading taken from `power.json`'s `label`, and a wrapping header. Re-checked with a 540 px screenshot. Committed with the Step 7 web scaffold follow-up.
+- **Lesson / guard added:** Take a screenshot of every page at desktop width and at narrow width before each deploy. Headless Edge can't render below about 500 px, so a true phone-width check needs device emulation.

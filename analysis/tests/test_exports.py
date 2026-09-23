@@ -60,3 +60,10 @@ def test_preregistration_precedes_all_loader_code(exports: dict[str, Any]) -> No
     for c in loader_commits:
         assert c != pre
         subprocess.run(["git", "-C", str(load.REPO_ROOT), "merge-base", "--is-ancestor", pre, c], check=True)
+
+
+def test_readme_cites_computed_preregistration_commit(exports: dict[str, Any]) -> None:
+    pre = exports["manifest.json"]["preregistration"]["commit_sha"]
+    readme = (load.REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    cited = set(re.findall(r"commit/([0-9a-f]{40})", readme))
+    assert cited == {pre}
