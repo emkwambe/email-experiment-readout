@@ -1,15 +1,16 @@
 {
   "manifest": {
-    "commit_sha": "9a10a47f1fc6e84396b88661b2281602c6b764b8",
+    "commit_sha": "88c6236646ca569a78d4dc0b5c72255edf0476f2",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-23T23:05:31Z",
+    "generated_utc": "2026-09-23T23:18:14Z",
     "script": "python -m liftlab.run --stage sprint1",
     "seed": 20260923,
     "stage": "sprint1"
   },
   "passed": true,
   "row_count": 64000,
+  "expected_row_count": 64000,
   "column_count": 12,
   "gates": {
     "row_count_is_64000": {
