@@ -21,6 +21,8 @@ from liftlab import SEED, checks, load, power
 WEB_DATA: Path = load.REPO_ROOT / "web" / "public" / "data"
 SCRIPT: str = "liftlab.run"
 SPRINT1_FILES: list[str] = ["integrity.json", "srm.json", "balance.json", "power.json"]
+# The only exports allowed to hold outcome estimates by arm (CLAUDE.md rule 2, analysis-plan Sections 6-8).
+SPRINT2_FILES: list[str] = ["effects_primary.json", "effects_secondary.json", "cuped.json", "heterogeneity.json"]
 
 
 def git_commit() -> dict[str, Any]:

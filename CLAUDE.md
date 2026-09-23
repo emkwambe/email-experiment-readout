@@ -50,7 +50,7 @@ Never write commands that require `cd` first. All file writes are UTF-8 without 
 
 1. **No uncomputed numbers.** Every number that appears on the website, in the README, or in any doc must come from a JSON file in `web\public\data\` produced by code in `analysis\`. Never type a statistic by hand. If a number is needed and no script produces it, write the script.
 
-2. **Outcome lock.** Until Sprint 2 begins, no code may compute or print any outcome metric (`visit`, `conversion`, `spend`) broken down by experiment arm. Sprint 1 may touch outcome columns only for schema, null, range, and consistency checks on the pooled data. The pre-registration is only credible if this holds.
+2. **Outcome lock.** Through Sprint 1, no code could compute or print any outcome metric (`visit`, `conversion`, `spend`) broken down by experiment arm; outcome columns were touched only for schema, null, range, and consistency checks on the pooled data. **As of the outcome-unlock commit (`outcome unlock: sections 6-8 (sprint 2)`, 2026-09-23), the lock is lifted for analysis-plan Sections 6–8 only**: primary, secondary, CUPED, and heterogeneous-effect estimates. By-arm outcome estimates may appear only in the Sprint 2 exports (`effects_primary.json`, `effects_secondary.json`, `cuped.json`, `heterogeneity.json`). Sections 9 and 10 stay locked (see rule 9). The pre-registration is only credible if this holds.
 
 3. **The analysis plan is locked.** `docs\analysis-plan.md` is committed before the data loader exists. Do not edit its body. Any departure from it is recorded in its Deviations section with date, reason, and effect on conclusions.
 
@@ -65,6 +65,8 @@ Never write commands that require `cd` first. All file writes are UTF-8 without 
 7. **Correction log.** When Claude Code produces something wrong that is caught by a test, a check, or human review (a wrong formula, a leaked outcome, a misread column, an off-by-one, an unjustified claim), append an entry to `ai-workflow\correction-log.md` in the same commit as the fix. Be specific and honest. This log is one of the most important artifacts in the repo.
 
 8. **Say what you verified.** At the end of every sprint task, report the exact commands run and their actual output (test counts, row counts, p-values from JSON). Never report success without evidence.
+
+9. **No targeting before Sprint 3.** No targeting model or targeting rule may be built, and no train/holdout split may be created, until Sprint 3. Sprint 3 creates the split (analysis-plan Section 9) and derives every targeting rule on the training split only. Sprint 2 heterogeneity results are estimates, not rules: they are never ranked, never turned into a send policy, and never compared against the cost-based decision rule (Section 10).
 
 ## Style
 
