@@ -1,0 +1,8 @@
+analysis/.venv/
+data/raw/
+__pycache__/
+.pytest_cache/
+web/node_modules/
+web/.next/
+web/.vercel/
+.env*
