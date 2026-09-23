@@ -63,3 +63,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code reviewed Playwright 390×844 screenshots (Sprint 2, Step 0.5).
 - **Fix:** Arm names kept on one line, MDE headers shortened (the contrast moved into the table caption), secondary annotations on their own line, and tighter cell padding below the `sm` breakpoint. Also fixed in the same pass: `/plan` now renders the author's single line breaks (`remark-breaks`), so "Author" and "Status", and H1/H2/H3, are no longer merged into one paragraph.
 - **Lesson / guard added:** `npm run screenshots` now also fails when any horizontal scroll container on a page is clipped. It was confirmed to fail on the old build before the fix.
+
+**2026-09-23 · Sprint 2 · Plan specified a four-cell mens × womens crossing that the population cannot contain**
+- **What was produced:** During planning, Claude Chat wrote analysis-plan Section 8, dimension 1: "Prior merchandise purchase (`mens`, `womens` flags, crossed into four groups)." The Sprint 2 brief repeated it.
+- **What was wrong:** The neither/neither cell cannot exist. The data documentation defines the population as customers who purchased within the prior twelve months, so each has bought men's or women's merchandise or both. This was knowable from the documentation alone, before any data access. The data confirms it: 0 customers have `mens=0, womens=0`.
+- **How it was caught:** Claude Code's covariate-only pre-check (cell counts of `mens` × `womens`, overall and by arm) before any effect estimate was computed. It stopped and reported the discrepancy while no outcome results were visible.
+- **Fix:** A dated Deviations entry in `docs/analysis-plan.md` makes dimension 1 three levels (2 interaction df), keeps the Holm family at 8 tests, and records all Sections 6–8 method clarifications before any estimate. Committed on its own, before `effects.py` exists.
+- **Lesson / guard added:** Future plans must check categorical cell structure against the data documentation (population definition, possible combinations of levels) before specifying crossings.
