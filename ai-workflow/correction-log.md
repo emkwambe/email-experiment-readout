@@ -35,3 +35,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Before committing, Claude Code checked its own claim. It stripped CR from the canonical file and diffed it against the local file (they still differed on `0` vs `0.0`), then hashed the decompressed mirror (`00a6a868…`, the same as the local file).
 - **Fix:** The cross-check is now computed in code (`liftlab.load.cross_check`): mirror byte identity, the canonical file's SHA-256, and parsed-content identity. The doc renders those results, and the prose explanation matches what was observed. Committed with the Step 3 loader.
 - **Lesson / guard added:** Any claim in a generated doc about why two artifacts differ must be backed by a check the code runs, not stated from inference.
+
+**2026-09-23 · Sprint 1 · Hand-typed numbers in website copy (rule 1)**
+- **What was produced:** In its first draft of the web pages, Claude Code wrote the integrity-gate label "Row count equals the documented 64,000" and the home-page sentence "randomly split … customers into three groups".
+- **What was wrong:** Both put a number on the site that did not come from a JSON export, which CLAUDE.md rule 1 forbids. The customer count in the same sentence was already read from `integrity.json`; the gate label and the group count were not.
+- **How it was caught:** Claude Code reviewed its own web code against rule 1 before the first build, looking for literal numbers in the page and label files.
+- **Fix:** `integrity.json` now exports `expected_row_count`. The gate label reads "documented population size", and the page shows both counts from JSON. The group count is computed from the arms in `srm.json`. Committed with the Step 7 web scaffold.
+- **Lesson / guard added:** Review every web page and label file for literal numbers before building. The one intentional exception is `web/content/analysis-plan.md`, which is the locked plan rendered verbatim; a test checks that it is byte-identical to `docs/analysis-plan.md`.

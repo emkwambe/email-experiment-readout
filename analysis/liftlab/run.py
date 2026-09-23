@@ -33,6 +33,20 @@ def git_commit() -> dict[str, Any]:
     return {"commit_sha": git("rev-parse", "HEAD"), "working_tree_dirty": bool(dirty)}
 
 
+PLAN_PATH: str = "docs/analysis-plan.md"
+
+
+def preregistration() -> dict[str, str]:
+    """The commit that first added the analysis plan (the pre-registration reference)."""
+    out = subprocess.run(
+        ["git", "-C", str(load.REPO_ROOT), "log", "--diff-filter=A", "--format=%H %cI", "--", PLAN_PATH],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip().splitlines()
+    sha, committed = out[-1].split(" ")
+    committed_utc = datetime.fromisoformat(committed).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {"commit_sha": sha, "committed_utc": committed_utc, "file": PLAN_PATH}
+
+
 def documented_sha256() -> str:
     """The dataset SHA-256 recorded in docs/data-source.md."""
     text = load.DATA_SOURCE_DOC.read_text(encoding="utf-8")
@@ -90,6 +104,7 @@ def run_sprint1() -> int:
     }
     write_json(WEB_DATA / "manifest.json", {
         "manifest": m,
+        "preregistration": preregistration(),
         "files": [{"file": n, "sha256": h} for n, h in file_hashes.items()],
         "summary": summary,
     })

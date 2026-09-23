@@ -59,6 +59,7 @@ def integrity(df: pd.DataFrame) -> dict[str, Any]:
     return {
         "passed": all(g["passed"] for g in gates.values()),
         "row_count": int(len(df)),
+        "expected_row_count": EXPECTED_ROWS,
         "column_count": int(df.shape[1]),
         "gates": gates,
         "documented_levels": {k: [str(v) for v in vs] for k, vs in DOCUMENTED_LEVELS.items()},

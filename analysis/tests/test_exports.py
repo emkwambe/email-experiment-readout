@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import subprocess
 from typing import Any
 
 from liftlab import load
@@ -33,3 +34,29 @@ def test_exports_retain_raw_source_zip_level(exports: dict[str, Any]) -> None:
     covariates = {r["covariate"] for r in exports["balance.json"]["rows"]}
     assert "zip_code=Surburban" in covariates
     assert "zip_code=Suburban" not in covariates
+
+
+def test_web_plan_copy_is_identical_to_locked_plan() -> None:
+    plan = load.REPO_ROOT / "docs" / "analysis-plan.md"
+    copy = load.REPO_ROOT / "web" / "content" / "analysis-plan.md"
+    assert copy.read_bytes() == plan.read_bytes(), "run `npm --prefix web run build` to resync web/content"
+
+
+def test_preregistration_commit_is_recorded(exports: dict[str, Any]) -> None:
+    pre = exports["manifest.json"]["preregistration"]
+    assert re.fullmatch(r"[0-9a-f]{40}", pre["commit_sha"])
+    assert pre["file"] == "docs/analysis-plan.md"
+
+
+def _git(*args: str) -> str:
+    return subprocess.run(["git", "-C", str(load.REPO_ROOT), *args], check=True, capture_output=True, text=True).stdout
+
+
+def test_preregistration_precedes_all_loader_code(exports: dict[str, Any]) -> None:
+    pre = exports["manifest.json"]["preregistration"]["commit_sha"]
+    assert not [p for p in _git("ls-tree", "-r", "--name-only", pre).splitlines() if p.startswith("analysis/")]
+    loader_commits = _git("log", "--format=%H", "--", "analysis/liftlab/load.py").split()
+    assert loader_commits
+    for c in loader_commits:
+        assert c != pre
+        subprocess.run(["git", "-C", str(load.REPO_ROOT), "merge-base", "--is-ancestor", pre, c], check=True)
