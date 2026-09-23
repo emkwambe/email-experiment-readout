@@ -107,3 +107,8 @@ Revenue is not margin. The readout states that net profit depends on gross margi
 ## Deviations
 
 *None at time of commit. Future entries: date, what changed, why, and effect on conclusions.*
+
+**2026-09-23 · Documented levels for `zip_code` (Section 5, gate 1)**
+- **What changed:** For the integrity gate's documented-levels check, the documented levels of `zip_code` are `{Urban, Surburban, Rural}`. "Surburban" is how the source file spells the level that Hillstrom's post describes as "Suburban" ("Classifies zip code as Urban, Suburban, or Rural").
+- **Why:** The data file uses the spelling "Surburban". Read literally against the post's wording, gate 1 would fail on a spelling difference, not on a data problem. The local file is byte-identical to the scikit-uplift mirror, and its parsed contents are identical to the original MineThatData CSV (see `docs\data-source.md`). The raw data and the loader are unchanged; "Surburban" is kept exactly as in the source. The gate is still an exact-match check, so any other value fails it.
+- **Effect on conclusions:** None. This is a label spelling and changes no estimate or conclusion. The website displays the label as "Suburban" through a single presentation-layer mapping, with a footnote giving the source spelling. Analysis code and JSON exports keep the raw level.
