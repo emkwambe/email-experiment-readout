@@ -15,4 +15,16 @@ Each entry is added in the same commit as its fix.
 
 ## Entries
 
-*No entries yet.*
+**2026-09-23 · Sprint 1 · CLAUDE.md specified a Python runtime that was not installed**
+- **What was produced:** During planning, Claude Chat wrote CLAUDE.md with `py -3.12 -m venv ...` as the environment setup command.
+- **What was wrong:** Nobody checked which Python runtimes were installed. The machine had only 3.13 and 3.11, so `py -3.12` failed with "No suitable Python runtime found."
+- **How it was caught:** Claude Code ran `py -0p` at the start of Sprint 1 Step 2, stopped, and reported the failure instead of switching to another Python version.
+- **Fix:** Python 3.12.10 was installed with `winget install -e --id Python.Python.3.12`, and `py -0p` confirmed it was registered. The spec was left unchanged. Committed with the Step 2 scaffold.
+- **Lesson / guard added:** Every future sprint file must include an environment preflight step (`py -0p`, `node -v`, `vercel --version`, `gh auth status`) before any setup commands.
+
+**2026-09-23 · Sprint 1 · Editable install line in requirements.txt resolved against the wrong directory**
+- **What was produced:** Claude Code added `-e .` to `analysis\requirements.txt` so that the one CLAUDE.md install command would also install the `liftlab` package.
+- **What was wrong:** pip resolves relative paths in a requirements file against the current working directory, not the file's location. CLAUDE.md forbids `cd`, so the command tried to install `C:\Users\HP` as a project and failed.
+- **How it was caught:** Before committing, Claude Code ran the install from a directory outside the repo and got `does not appear to be a Python project`.
+- **Fix:** Removed `-e .` from `requirements.txt`. Added one absolute-path command to the CLAUDE.md Commands section: `python.exe -m pip install -e C:\dev\liftlab-email-experiment\analysis`. Both commands were re-verified from outside the repo, and `import liftlab` succeeded. Committed with the Step 2 scaffold.
+- **Lesson / guard added:** Test setup commands from a directory other than the repo root, because a relative path can pass by accident when run from the repo.

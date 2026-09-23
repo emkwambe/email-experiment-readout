@@ -30,6 +30,7 @@ C:\dev\liftlab-email-experiment\
 # Python env
 py -3.12 -m venv C:\dev\liftlab-email-experiment\analysis\.venv
 C:\dev\liftlab-email-experiment\analysis\.venv\Scripts\python.exe -m pip install -r C:\dev\liftlab-email-experiment\analysis\requirements.txt
+C:\dev\liftlab-email-experiment\analysis\.venv\Scripts\python.exe -m pip install -e C:\dev\liftlab-email-experiment\analysis
 
 # Tests
 C:\dev\liftlab-email-experiment\analysis\.venv\Scripts\python.exe -m pytest C:\dev\liftlab-email-experiment\analysis\tests -q
