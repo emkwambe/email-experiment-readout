@@ -10,7 +10,7 @@ const STEPS = [
   },
   {
     title: "Execute in Claude Code",
-    body: "Claude Code works through the sprint file step by step inside the repository, following binding project rules: no hand-typed numbers, no outcomes compared across groups until the plan allows it, a manifest on every export, one command to reproduce each stage. It stops and reports when a step fails instead of working around it.",
+    body: "Claude Code works through the sprint file step by step inside the repository, following binding project rules: no hand-typed numbers, no outcomes compared across groups until the plan allows it, a manifest on every export, and one command that regenerates every published number for a stage. It stops and reports when a step fails instead of working around it.",
   },
   {
     title: "Verify with tests",

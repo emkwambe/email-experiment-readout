@@ -51,6 +51,10 @@ npm --prefix C:\dev\liftlab-email-experiment\web run build
 npm --prefix C:\dev\liftlab-email-experiment\web run smoke
 ```
 
+## Security note
+
+`npm audit` reports a PostCSS advisory through Next 15's bundled build tooling. It affects only build-time processing of this project's own CSS: no user-supplied CSS is processed, and nothing from it runs in the deployed site. The only fix is Next 16, and this project is pinned to Next 15, so the advisory is left in place and will be revisited if the stack is upgraded.
+
 ## Layout
 
 ```

@@ -49,3 +49,17 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code reviewed headless-browser screenshots of the locally built site before deploying.
 - **Fix:** Plain-text gate labels in `web/lib/labels.ts`, a single banner heading taken from `power.json`'s `label`, and a wrapping header. Re-checked with a 540 px screenshot. Committed with the Step 7 web scaffold follow-up.
 - **Lesson / guard added:** Take a screenshot of every page at desktop width and at narrow width before each deploy. Headless Edge can't render below about 500 px, so a true phone-width check needs device emulation.
+
+**2026-09-23 · Sprint 2 · Balance SMD used sample variance for binary covariates**
+- **What was produced:** In Sprint 1, Claude Code's `checks.smd` used the sample variance (ddof = 1) for every covariate, and its unit test encoded that choice (`0.25 * sqrt(24/7)` for a binary example).
+- **What was wrong:** The standard definition uses p(1−p) for binary covariates (`mens`, `womens`, `newbie` and every one-hot dummy), not the sample variance, which is larger by a factor of n/(n−1). The Sprint 1 test checked the formula as implemented, so it could not catch a wrong choice of formula. With roughly 21,000 customers per group the numerical effect is tiny: the largest |SMD| moved from 0.0163595 to 0.0163599, and 0 covariates were flagged before and after.
+- **How it was caught:** Human review. The Sprint 2 brief (Step 0.3) asked Claude Code to confirm the formula, and the implementation did not match the binary case.
+- **Fix:** `smd(..., binary=True)` uses p(1−p); `is_binary_covariate` classifies each covariate, and `balance.json` records each row's `type`. A new hand-computed test gives 0.25 / sqrt(7/32) = 0.5345224838 for binary data. The continuous case keeps its own test. The Sprint 1 exports are regenerated in the commit after this one, from a clean tree.
+- **Lesson / guard added:** A unit test must check against a reference definition that exists independently of the implementation, not the implementation's own arithmetic.
+
+**2026-09-23 · Sprint 2 · Tables clipped at true phone width on /checks**
+- **What was produced:** Claude Code's `/checks` tables, which Sprint 1 could only verify at 540 px.
+- **What was wrong:** At 390 px with device emulation, arm names broke at the hyphen ("Mens E- / Mail"), the MDE column headers wrapped onto three lines, and after a first fix the SRM table was clipped inside its scroll container (the Share column was cut off). The page-level overflow check passed throughout, because the clipping was inside the table's own scroll box.
+- **How it was caught:** Claude Code reviewed Playwright 390×844 screenshots (Sprint 2, Step 0.5).
+- **Fix:** Arm names kept on one line, MDE headers shortened (the contrast moved into the table caption), secondary annotations on their own line, and tighter cell padding below the `sm` breakpoint. Also fixed in the same pass: `/plan` now renders the author's single line breaks (`remark-breaks`), so "Author" and "Status", and H1/H2/H3, are no longer merged into one paragraph.
+- **Lesson / guard added:** `npm run screenshots` now also fails when any horizontal scroll container on a page is clipped. It was confirmed to fail on the old build before the fix.

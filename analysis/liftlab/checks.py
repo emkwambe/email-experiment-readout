@@ -90,15 +90,32 @@ def srm(df: pd.DataFrame) -> dict[str, Any]:
     return srm_test({a: int(counts.get(a, 0)) for a in ARMS})
 
 
-def smd(treated: pd.Series, control: pd.Series) -> float:
-    """Standardized mean difference: (mean_t - mean_c) / sqrt((var_t + var_c) / 2), sample variances."""
+BINARY_NUMERIC_COVARIATES: list[str] = ["mens", "womens", "newbie"]
+
+
+def smd(treated: pd.Series, control: pd.Series, binary: bool = False) -> float:
+    """Standardized mean difference, standard definition.
+
+    Continuous: (mean_t - mean_c) / sqrt((s2_t + s2_c) / 2) with sample variances (ddof=1).
+    Binary: the same formula with p(1-p) in place of the variance.
+    """
     t = treated.astype(float)
     c = control.astype(float)
-    pooled = np.sqrt((t.var(ddof=1) + c.var(ddof=1)) / 2.0)
+    if binary:
+        pt, pc = t.mean(), c.mean()
+        var_t, var_c = pt * (1 - pt), pc * (1 - pc)
+    else:
+        var_t, var_c = t.var(ddof=1), c.var(ddof=1)
+    pooled = np.sqrt((var_t + var_c) / 2.0)
     diff = t.mean() - c.mean()
     if pooled == 0:
         return 0.0 if diff == 0 else float(np.sign(diff) * np.inf)
     return float(diff / pooled)
+
+
+def is_binary_covariate(name: str) -> bool:
+    """One-hot dummies (`column=level`) and 0/1 flags are binary; recency and history are continuous."""
+    return "=" in name or name in BINARY_NUMERIC_COVARIATES
 
 
 def covariate_matrix(df: pd.DataFrame) -> pd.DataFrame:
@@ -120,11 +137,13 @@ def balance(df: pd.DataFrame) -> dict[str, Any]:
     for t_arm in TREATMENT_ARMS:
         treated = x[arm == t_arm]
         for cov in x.columns:
-            value = smd(treated[cov], control[cov])
+            binary = is_binary_covariate(cov)
+            value = smd(treated[cov], control[cov], binary=binary)
             rows.append({
                 "arm": t_arm,
                 "control": CONTROL_ARM,
                 "covariate": cov,
+                "type": "binary" if binary else "continuous",
                 "smd": value,
                 "abs_smd": abs(value),
                 "flag": bool(abs(value) > SMD_FLAG),
@@ -132,7 +151,7 @@ def balance(df: pd.DataFrame) -> dict[str, Any]:
     flagged = [r for r in rows if r["flag"]]
     return {
         "flag_threshold": SMD_FLAG,
-        "method": "SMD = (mean_treated - mean_control) / sqrt((var_treated + var_control) / 2), sample variances; categoricals one-hot",
+        "method": "SMD = (mean_treated - mean_control) / sqrt((v_treated + v_control) / 2); continuous covariates use sample variances (ddof=1), binary covariates and one-hot categoricals use p(1-p)",
         "n_covariates": int(x.shape[1]),
         "n_flagged": len(flagged),
         "max_abs_smd": max(r["abs_smd"] for r in rows),

@@ -24,8 +24,8 @@ function Section({ id, title, children }: { id: string; title: string; children:
   );
 }
 
-const th = "px-3 py-2 text-left font-medium text-muted";
-const td = "px-3 py-2";
+const th = "px-2 py-2 text-left font-medium text-muted sm:px-3";
+const td = "px-2 py-2 sm:px-3";
 const tableWrap = "overflow-x-auto rounded-lg border border-line bg-surface";
 
 export default function ChecksPage() {
@@ -39,6 +39,7 @@ export default function ChecksPage() {
   const smdOf = (arm: string, cov: string) => balance.rows.find((r) => r.arm === arm && r.covariate === cov)!;
   const relabelled = Object.entries(SOURCE_SPELLING_FIXES);
   const powerContrasts = [...new Set(power.revenue_per_customer.map((r) => r.contrast))];
+  const powerControl = power.revenue_per_customer[0].contrast.split(" vs ")[1];
   const metrics = [...new Set(power.proportions.map((r) => r.metric))];
 
   return (
@@ -101,7 +102,7 @@ export default function ChecksPage() {
             <tbody>
               {arms.map((a) => (
                 <tr key={a} className="border-b border-line last:border-0">
-                  <td className={td}>{a}</td>
+                  <td className={`${td} whitespace-nowrap`}>{a}</td>
                   <td className={`${td} num text-right`}>{fmtInt(srm.observed[a])}</td>
                   <td className={`${td} num text-right`}>{fmtFixed(srm.expected[a], 1)}</td>
                   <td className={`${td} num text-right`}>{fmtPct(srm.observed[a] / srm.total, 2)}</td>
@@ -125,7 +126,7 @@ export default function ChecksPage() {
               <tr>
                 <th className={th}>Covariate</th>
                 {contrasts.map((c) => (
-                  <th key={c} className={`${th} text-right`}>
+                  <th key={c} className={`${th} whitespace-nowrap text-right`}>
                     {c}
                   </th>
                 ))}
@@ -164,6 +165,11 @@ export default function ChecksPage() {
           ))}
           Method: {balance.method}.
         </p>
+        <p className="text-xs text-muted">
+          Note: prior-year spend (<code>history</code>) and the prior-year spend band (<code>history_segment</code>) overlap by
+          construction, because the band is derived from the dollar amount. Both are listed because the plan names both as
+          pre-period covariates, but they are not independent balance checks.
+        </p>
       </Section>
 
       <Section id="power" title="4. Planning power (minimum detectable effects)">
@@ -174,15 +180,18 @@ export default function ChecksPage() {
         </div>
         {metrics.map((metric) => (
           <div key={metric} className="space-y-2">
-            <h3 className="font-medium">{METRIC_NAMES[metric] ?? metric}</h3>
+            <h3 className="font-medium">
+              {METRIC_NAMES[metric] ?? metric}{" "}
+              <span className="text-sm font-normal text-muted">· MDE vs {powerControl}</span>
+            </h3>
             <div className={tableWrap}>
               <table className="w-full text-sm">
                 <thead className="border-b border-line">
                   <tr>
                     <th className={th}>Assumed baseline</th>
                     {powerContrasts.map((c) => (
-                      <th key={c} className={`${th} text-right`}>
-                        MDE, {c}
+                      <th key={c} className={`${th} whitespace-nowrap text-right`}>
+                        {c.split(" vs ")[0]}
                       </th>
                     ))}
                   </tr>
@@ -191,15 +200,15 @@ export default function ChecksPage() {
                   {[...new Set(power.proportions.filter((r) => r.metric === metric).map((r) => r.assumed_baseline_rate))].map(
                     (p) => (
                       <tr key={p} className="border-b border-line last:border-0">
-                        <td className={`${td} num`}>{fmtPct(p, 1)} (assumed)</td>
+                        <td className={`${td} num`}>{fmtPct(p, 1)}</td>
                         {powerContrasts.map((c) => {
                           const r = power.proportions.find(
                             (x) => x.metric === metric && x.contrast === c && x.assumed_baseline_rate === p,
                           )!;
                           return (
                             <td key={c} className={`${td} num text-right`}>
-                              {fmtPp(r.mde_absolute)}{" "}
-                              <span className="text-muted">({fmtPct(r.mde_relative, 0)} relative)</span>
+                              <span className="whitespace-nowrap">{fmtPp(r.mde_absolute)}</span>
+                              <span className="block text-xs text-muted">{fmtPct(r.mde_relative, 0)} relative</span>
                             </td>
                           );
                         })}
@@ -212,15 +221,18 @@ export default function ChecksPage() {
           </div>
         ))}
         <div className="space-y-2">
-          <h3 className="font-medium">{METRIC_NAMES.revenue_per_customer}</h3>
+          <h3 className="font-medium">
+            {METRIC_NAMES.revenue_per_customer}{" "}
+            <span className="text-sm font-normal text-muted">· MDE per customer vs {powerControl}</span>
+          </h3>
           <div className={tableWrap}>
             <table className="w-full text-sm">
               <thead className="border-b border-line">
                 <tr>
                   <th className={th}>Assumed SD of spend</th>
                   {powerContrasts.map((c) => (
-                    <th key={c} className={`${th} text-right`}>
-                      MDE, {c}
+                    <th key={c} className={`${th} whitespace-nowrap text-right`}>
+                      {c.split(" vs ")[0]}
                     </th>
                   ))}
                 </tr>
@@ -228,12 +240,12 @@ export default function ChecksPage() {
               <tbody>
                 {[...new Set(power.revenue_per_customer.map((r) => r.assumed_sd_dollars))].map((sd) => (
                   <tr key={sd} className="border-b border-line last:border-0">
-                    <td className={`${td} num`}>{fmtDollars(sd, 0)} (assumed)</td>
+                    <td className={`${td} num`}>{fmtDollars(sd, 0)}</td>
                     {powerContrasts.map((c) => {
                       const r = power.revenue_per_customer.find((x) => x.contrast === c && x.assumed_sd_dollars === sd)!;
                       return (
                         <td key={c} className={`${td} num text-right`}>
-                          {fmtDollars(r.mde_dollars)} per customer
+                          {fmtDollars(r.mde_dollars)}
                         </td>
                       );
                     })}
@@ -243,7 +255,10 @@ export default function ChecksPage() {
             </table>
           </div>
         </div>
-        <p className="text-xs text-muted">Method: {power.method}.</p>
+        <p className="text-xs text-muted">
+          Method: {power.method}. These are normal-approximation planning values; exact small-sample power, the skew of
+          spend and multiple-testing adjustments beyond the per-test α are not modelled.
+        </p>
       </Section>
     </div>
   );

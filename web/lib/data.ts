@@ -39,6 +39,7 @@ export type BalanceRow = {
   arm: string;
   control: string;
   covariate: string;
+  type: "binary" | "continuous";
   smd: number;
   abs_smd: number;
   flag: boolean;

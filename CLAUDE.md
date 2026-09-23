@@ -56,7 +56,9 @@ Never write commands that require `cd` first. All file writes are UTF-8 without 
 
 4. **Provenance on every export.** Every JSON export includes a `manifest` block: git commit SHA, dataset SHA-256, UTC timestamp, script name, and random seed where applicable.
 
-5. **Reproducibility.** Global seed `20260923`. One command (`python -m liftlab.run --stage <stage>`) regenerates every published number for that stage.
+5. **Reproducibility.** Global seed `20260923`. There are two commands, by design:
+   - `python -m liftlab.load` fetches the dataset and regenerates `docs\data-source.md`. This is a provenance event and is run rarely.
+   - `python -m liftlab.run --stage <stage>` regenerates every published number for that stage. It halts if the dataset's SHA-256 does not match the one recorded in `docs\data-source.md`.
 
 6. **Tests before claims.** A result is not "done" until a test asserts it: integrity checks, SRM, balance, and later the effect estimates against an independent computation (for example, bootstrap vs analytic CI agreement).
 
