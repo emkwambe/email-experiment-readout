@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
+    "commit_sha": "4c93de836959a8c96f41aee2fd27282f62c1f551",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T00:01:43Z",
+    "generated_utc": "2026-09-24T00:43:32Z",
     "script": "python -m liftlab.run --stage sprint2",
     "seed": 20260923,
     "stage": "sprint2"
@@ -16,35 +16,35 @@
   "files": [
     {
       "file": "integrity.json",
-      "sha256": "56b0a68b8d80f12935c446cf791dd3f1bf45598c1800ba4119824ec302a8dfc0"
+      "sha256": "5c137183127ebeadba8f503927140879e23055e1e26dcbd6aea2b0cb0a8adce2"
     },
     {
       "file": "srm.json",
-      "sha256": "479f170c0bedf28dd53449b2b9878f9e9fde6ec6cd64e3e312148307c8f2beda"
+      "sha256": "c4a932eb0066c114ce8ff2f9a9b85033daa1f6c5a4be55d3ee53374818799aee"
     },
     {
       "file": "balance.json",
-      "sha256": "92fe11c8685bd878f9ebf2494da1f3990c7184f7e98f50ae4d785a3abb0feaea"
+      "sha256": "590d9592756b3fb2b9ba980febefa3349944576589e98594c47584584d998ed3"
     },
     {
       "file": "power.json",
-      "sha256": "cb5b7cb28bd94f71b8927668e837bd6798680a0c312cc7ef1b92a1f7d86a0474"
+      "sha256": "e8e7906de6448dfb878da743d4845dcbb55f289750b594cff359c1d3702d84b0"
     },
     {
       "file": "effects_primary.json",
-      "sha256": "11657cdbfed94361523178329d85710f8643c46f7bf60e935cc783f2f5d0c31f"
+      "sha256": "eeae391d5394f59ad7c901ee45dcd426fe60e0b61bbb34b6aa606d0c22376c2e"
     },
     {
       "file": "effects_secondary.json",
-      "sha256": "8ed3b3db6eced96f0704aac22be5135100dad2b1aa6f558501834869d6cf50ca"
+      "sha256": "e0762b5c80691d822e85b7b80efc5b9e03e745b97ff5f7c418055adfc4b3fd58"
     },
     {
       "file": "cuped.json",
-      "sha256": "3e0e94c97221541dc53df135286d37e02df42166d1f3ec15c610fd31ae01626a"
+      "sha256": "0b47d6e192c36bee756fe38a49befd6336892728842b16d9db08f68be6dc338e"
     },
     {
       "file": "heterogeneity.json",
-      "sha256": "433bc5cb0d4c4c2f9b92f85c3866b490fad53506eb44eea6947980022ca8cade"
+      "sha256": "50a9b01ba4b19d527e0e42873bf0dfd09a1521eb7926e5a1654cffb17b6173b0"
     }
   ],
   "summary": {
