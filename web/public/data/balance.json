@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "890aeaaa3a7079600844b6f4843321f6bb584616",
-    "working_tree_dirty": false,
+    "commit_sha": "cb0001094f5c819f8199754f22bfce08026723d2",
+    "working_tree_dirty": true,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T02:28:30Z",
+    "generated_utc": "2026-09-24T02:38:57Z",
     "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
     "stage": "sprint3"

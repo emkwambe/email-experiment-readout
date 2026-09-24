@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "890aeaaa3a7079600844b6f4843321f6bb584616",
-    "working_tree_dirty": false,
+    "commit_sha": "cb0001094f5c819f8199754f22bfce08026723d2",
+    "working_tree_dirty": true,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T02:28:30Z",
+    "generated_utc": "2026-09-24T02:38:57Z",
     "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
     "stage": "sprint3"
@@ -50,6 +50,14 @@
           ],
           "z": 22.48604082719282,
           "p_value": 5.685165482802317e-112,
+          "relative_lift": {
+            "estimate": 0.721404616781399,
+            "se": 0.04234278590139256,
+            "ci_low": 0.6384142814095792,
+            "ci_high": 0.8043949521532188,
+            "supplementary": true,
+            "pre_registered": false
+          },
           "p_holm": 1.1370330965604634e-111,
           "reject_holm": true
         },
@@ -64,6 +72,14 @@
           ],
           "z": 13.949180655258505,
           "p_value": 3.1824031593349214e-44,
+          "relative_lift": {
+            "estimate": 0.42605507026691014,
+            "se": 0.036559823425209206,
+            "ci_low": 0.35439913307235626,
+            "ci_high": 0.497711007461464,
+            "supplementary": true,
+            "pre_registered": false
+          },
           "p_holm": 3.1824031593349214e-44,
           "reject_holm": true
         }
@@ -105,6 +121,14 @@
           ],
           "z": 7.385114410925771,
           "p_value": 1.5232235005955427e-13,
+          "relative_lift": {
+            "estimate": 1.188421876286328,
+            "se": 0.23821379454415278,
+            "ci_low": 0.7215314183591643,
+            "ci_high": 1.6553123342134914,
+            "supplementary": true,
+            "pre_registered": false
+          },
           "p_holm": 3.0464470011910854e-13,
           "reject_holm": true
         },
@@ -119,10 +143,40 @@
           ],
           "z": 3.77956095835785,
           "p_value": 0.00015710512910668448,
+          "relative_lift": {
+            "estimate": 0.5433130436982172,
+            "se": 0.17861581259319534,
+            "ci_low": 0.19323248394619852,
+            "ci_high": 0.8933936034502359,
+            "supplementary": true,
+            "pre_registered": false
+          },
           "p_holm": 0.00015710512910668448,
           "reject_holm": true
         }
       ]
+    }
+  },
+  "relative_lift_note": "Relative lift of each rate (treatment rate / comparison rate - 1) with a delta-method 95% interval. Supplementary presentation quantity added in v1.0.1; not pre-registered and not Holm-corrected.",
+  "purchase_rate_among_visitors": {
+    "descriptive_only": true,
+    "reason": "Purchase rate among visitors conditions on a post-treatment outcome (visiting): the email changes who visits, so emailed and non-emailed visitors are no longer randomized, comparable groups. Reported for context only; never used for inference or the recommendation.",
+    "arms": {
+      "No E-Mail": {
+        "visitors": 2262,
+        "purchasers": 122,
+        "purchase_rate_among_visitors": 0.053934571175950484
+      },
+      "Mens E-Mail": {
+        "visitors": 3894,
+        "purchasers": 267,
+        "purchase_rate_among_visitors": 0.06856702619414484
+      },
+      "Womens E-Mail": {
+        "visitors": 3238,
+        "purchasers": 189,
+        "purchase_rate_among_visitors": 0.05836936380481779
+      }
     }
   },
   "spend_among_converters": {

@@ -31,6 +31,16 @@ CONTRASTS: list[dict[str, Any]] = [
 ]
 PRIMARY_CONTRASTS: list[dict[str, Any]] = [c for c in CONTRASTS if c["holm_family"]]
 
+VISITOR_CONVERSION_REASON: str = (
+    "Purchase rate among visitors conditions on a post-treatment outcome (visiting): the email changes who "
+    "visits, so emailed and non-emailed visitors are no longer randomized, comparable groups. Reported for "
+    "context only; never used for inference or the recommendation."
+)
+RELATIVE_LIFT_NOTE: str = (
+    "Relative lift of each rate (treatment rate / comparison rate - 1) with a delta-method 95% interval. "
+    "Supplementary presentation quantity added in v1.0.1; not pre-registered and not Holm-corrected."
+)
+
 CONVERTER_SPEND_REASON: str = (
     "Spend among converters conditions on a post-treatment outcome (conversion), so the groups being "
     "compared are no longer randomized; any difference mixes the email's effect with who was induced "
@@ -228,11 +238,22 @@ def secondary(df: pd.DataFrame) -> dict[str, Any]:
                 "id": c["id"], "treatment": c["treatment"], "comparison": c["comparison"],
                 "estimate": x1 / n1 - x2 / n2, "ci_newcombe": [lo, hi],
                 "z": z["z"], "p_value": z["p_value"],
+                "relative_lift": {**relative_lift(values[c["treatment"]], values[c["comparison"]]),
+                                  "supplementary": True, "pre_registered": False},
             })
         for r, p_adj in zip(rows, holm([r["p_value"] for r in rows])):
             r["p_holm"] = p_adj
             r["reject_holm"] = bool(p_adj < ALPHA)
         metrics[metric] = {"arms": arms, "contrasts": rows}
+
+    visitors = df[df["visit"] == 1]
+    purchases_among_visitors = by_arm(visitors, "conversion")
+    visitor_block = {
+        "descriptive_only": True,
+        "reason": VISITOR_CONVERSION_REASON,
+        "arms": {a: {"visitors": len(v), "purchasers": int(v.sum()), "purchase_rate_among_visitors": float(v.mean())}
+                 for a, v in purchases_among_visitors.items()},
+    }
 
     conv = df[df["conversion"] == 1]
     conv_spend = by_arm(conv, "spend")
@@ -249,6 +270,8 @@ def secondary(df: pd.DataFrame) -> dict[str, Any]:
         "interval": "Newcombe (1998) method 10 hybrid score interval; Wilson without continuity correction",
         "test": "two-proportion z-test, pooled standard error",
         "metrics": metrics,
+        "relative_lift_note": RELATIVE_LIFT_NOTE,
+        "purchase_rate_among_visitors": visitor_block,
         "spend_among_converters": descriptive,
     }
 

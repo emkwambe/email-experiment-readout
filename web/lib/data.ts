@@ -175,6 +175,7 @@ export type RateContrast = {
   p_value: number;
   p_holm: number;
   reject_holm: boolean;
+  relative_lift: { estimate: number; se: number; ci_low: number; ci_high: number; supplementary: boolean; pre_registered: boolean };
 };
 
 export type EffectsSecondary = {
@@ -185,6 +186,12 @@ export type EffectsSecondary = {
   interval: string;
   test: string;
   metrics: Record<string, { arms: Record<string, RateArm>; contrasts: RateContrast[] }>;
+  relative_lift_note: string;
+  purchase_rate_among_visitors: {
+    descriptive_only: boolean;
+    reason: string;
+    arms: Record<string, { visitors: number; purchasers: number; purchase_rate_among_visitors: number }>;
+  };
   spend_among_converters: {
     descriptive_only: boolean;
     reason: string;

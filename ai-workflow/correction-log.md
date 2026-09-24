@@ -122,3 +122,14 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code noticed the "1 failed" summary line above its own commit output. Human review then asked for a correction-log entry rather than only a note in the verification file.
 - **Fix:** Every commit is now gated on pytest's own exit status. Bash commands run with `set -euo pipefail` (or check `PIPESTATUS`), and PowerShell commands capture `$LASTEXITCODE` from pytest before any pipe and commit only when it is 0, as for `e128110`. `timeline.json` is regenerated after this entry so its statistics match the log.
 - **Lesson / guard added:** Never let a pipe decide whether to commit. Gate commits on the test runner's own exit code.
+
+**2026-09-24 · v1.0.1 · Funnel interpretation on the readout was contradicted by the data**
+- **What was produced:** Claude Chat's Sprint 3 brief framed readout Section 5 as a question for the landing-experience owner, and Claude Code wrote it as: "the emails brought many more customers to the site than they turned into buyers."
+- **What was wrong:** The data says the opposite. Both emails lifted visits and purchases. Relative to no email, the point estimate of the purchase lift is larger than the visit lift for both emails (Mens +119% vs +72%; Womens +54% vs +43%, from `effects_secondary.json` relative lifts). Among visitors, emailed customers bought at 6.9% (Mens) and 5.8% (Womens) against 5.4% without email (descriptive only). The sentence compared absolute percentage-point changes on very different bases, which made purchases look like the weak link. It was an interpretive error that originated in Claude Chat.
+- **How it was caught:** Human review of the live readout. It survived three sprints because the tests verified every number against independent computations, but nothing checked that the conclusions drawn from those numbers followed from them.
+- **Fix (v1.0.1):**
+  - `effects_secondary.json` now exports delta-method relative lifts for visits and purchases, labelled supplementary and not pre-registered, and the purchase rate among visitors, marked `descriptive_only` with the post-treatment selection caveat.
+  - Section 5 is rewritten from those fields. Its sentences are generated conditionally from them, and the ordering claim is qualified because the intervals overlap.
+  - The landing-experience question is removed; the exports do not support it.
+  - Sections 2, 3 and 6 also gained explicit source lines.
+- **Lesson / guard added:** Every interpretive sentence on the site must cite the specific exported fields that support it (a "Sources" line under each section of the readout), and review checks each sentence against those fields, not just the numbers.

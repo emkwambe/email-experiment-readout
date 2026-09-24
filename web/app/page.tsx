@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCuped, getDecision, getEffectsPrimary, getEffectsSecondary, getManifest, getTargeting } from "@/lib/data";
-import { commitUrl, fmtFixed, fmtInt, fmtLevel, fmtP, fmtPct, fmtSignedDollars, fmtSignedPp, shortSha } from "@/lib/format";
+import { commitUrl, fmtFixed, fmtInt, fmtLevel, fmtP, fmtPct, fmtSignedDollars, fmtSignedPct, fmtSignedPp, shortSha } from "@/lib/format";
 import { niceDomain } from "@/lib/scale";
 import { IntervalChart, type Series } from "./results/interval-chart";
 import { LineChart, type LineSeries } from "./line-chart";
@@ -12,6 +12,21 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 const dollars = (x: number) => (x === 0 ? "$0" : fmtSignedDollars(x).replace("+", ""));
+
+/** Names the exported JSON fields an interpretive sentence rests on (review guard, correction log v1.0.1). */
+function Sources({ fields }: { fields: string[] }) {
+  return (
+    <p className="text-xs text-muted">
+      Sources:{" "}
+      {fields.map((f, i) => (
+        <span key={f}>
+          {i > 0 && "; "}
+          <code>{f}</code>
+        </span>
+      ))}
+    </p>
+  );
+}
 
 function Section({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
@@ -65,6 +80,17 @@ export default function Home() {
 
   const visit = secondary.metrics.visit_rate;
   const conv = secondary.metrics.conversion_rate;
+  const allRevenueUp = why.every((c) => c.ci_analytic[0] > 0);
+  const qiniAtMostZero = Object.values(targeting.qini_holdout).every((q) => q.coefficient <= 0);
+  const funnel = visit.contrasts.map((v, i) => ({ id: v.id, email: v.treatment, visit: v, purchase: conv.contrasts[i] }));
+  const bothLifted = funnel.every((f) => f.visit.ci_newcombe[0] > 0 && f.purchase.ci_newcombe[0] > 0);
+  const purchasesMore = funnel.every((f) => f.purchase.relative_lift.estimate > f.visit.relative_lift.estimate);
+  const intervalsOverlap = funnel.some(
+    (f) =>
+      f.purchase.relative_lift.ci_low <= f.visit.relative_lift.ci_high &&
+      f.visit.relative_lift.ci_low <= f.purchase.relative_lift.ci_high,
+  );
+  const visitors = secondary.purchase_rate_among_visitors;
 
   return (
     <div className="space-y-12">
@@ -94,8 +120,10 @@ export default function Home() {
 
       <Section n={2} title="Why">
         <p className="text-muted">
-          Both emails increased revenue per customer over the two weeks after the send, compared with customers who got no
-          email. <Link href="/results" className="text-accent underline">All estimates →</Link>
+          {allRevenueUp
+            ? "Both emails increased revenue per customer over the two weeks after the send, compared with customers who got no email: each interval lies above zero."
+            : "Not every email's interval for incremental revenue per customer lies above zero; see each estimate below."}{" "}
+          <Link href="/results" className="text-accent underline">All estimates →</Link>
         </p>
         <IntervalChart
           series={whySeries}
@@ -113,6 +141,7 @@ export default function Home() {
             values: { a: { est: c.estimate, lo: c.ci_analytic[0], hi: c.ci_analytic[1] } },
           }))}
         />
+        <Sources fields={["effects_primary.json: contrasts[H1, H2].estimate, .ci_analytic, .p_holm"]} />
       </Section>
 
       <Section n={3} title="Does targeting help?">
@@ -137,7 +166,9 @@ export default function Home() {
               {fmtSignedDollars(bestDistinct.net_value_minus_best_blanket_ci![1])}).{" "}
             </>
           )}
-          The uplift models ranked customers no better than chance: holdout Qini{" "}
+          {qiniAtMostZero
+            ? "The uplift models ranked customers no better than chance: holdout Qini"
+            : "The uplift models' ranking gains were small: holdout Qini"}{" "}
           {Object.entries(targeting.qini_holdout)
             .map(([a, q]) => `${a} ${fmtSignedDollars(q.coefficient)}`)
             .join(", ")}{" "}
@@ -148,8 +179,16 @@ export default function Home() {
           {fmtSignedDollars(rec.holdout.incremental_revenue_vs_p0)} per customer ({level} CI{" "}
           {fmtSignedDollars(rec.holdout.incremental_revenue_vs_p0_ci[0])} to{" "}
           {fmtSignedDollars(rec.holdout.incremental_revenue_vs_p0_ci[1])}). That interval overlaps the full-experiment
-          estimate above and is wider, because it uses only the holdout and a policy-value estimator.
+          estimate above and is wider, because it uses only the holdout and a policy-value estimator. The holdout exists to
+          compare targeting against blanket sending, not to re-confirm the email effect, which rests on the pre-registered
+          full-sample test in section 2.
         </p>
+        <Sources
+          fields={[
+            "targeting.json: winner, policies[].net_value_minus_best_blanket(_ci), qini_holdout[].coefficient",
+            "decision.json: recommendation.holdout.incremental_revenue_vs_p0(_ci)",
+          ]}
+        />
       </Section>
 
       <Section n={4} title="When it stops paying">
@@ -191,22 +230,42 @@ export default function Home() {
       </Section>
 
       <Section n={5} title="What we saw in the funnel">
+        <p>
+          {bothLifted
+            ? "Both emails lifted visits and purchases: every interval lies above zero."
+            : "Not every visit or purchase interval lies above zero; see the estimates below."}{" "}
+          {purchasesMore &&
+            (intervalsOverlap
+              ? "For both emails the point estimate of the relative lift is larger for purchases than for visits, but the purchase intervals are wide and overlap the visit intervals, so that ordering is not statistically established."
+              : "For both emails the relative lift is larger for purchases than for visits.")}
+        </p>
         <ul className="num space-y-2 text-sm">
-          {visit.contrasts.map((c, i) => (
-            <li key={c.id}>
-              <span className="font-medium">{c.treatment}</span>: visits {fmtSignedPp(c.estimate)} ({level} CI{" "}
-              {fmtSignedPp(c.ci_newcombe[0])} to {fmtSignedPp(c.ci_newcombe[1])}) from a no-email base of{" "}
-              {fmtPct(visit.arms[c.comparison].rate, 1)}; purchases {fmtSignedPp(conv.contrasts[i].estimate)} (
-              {fmtSignedPp(conv.contrasts[i].ci_newcombe[0])} to {fmtSignedPp(conv.contrasts[i].ci_newcombe[1])}) from a base
-              of {fmtPct(conv.arms[c.comparison].rate, 2)}.
+          {funnel.map((f) => (
+            <li key={f.id}>
+              <span className="font-medium">{f.email}</span>: visits {fmtSignedPp(f.visit.estimate)} ({level} CI{" "}
+              {fmtSignedPp(f.visit.ci_newcombe[0])} to {fmtSignedPp(f.visit.ci_newcombe[1])}), a relative lift of{" "}
+              {fmtSignedPct(f.visit.relative_lift.estimate)} ({fmtSignedPct(f.visit.relative_lift.ci_low)} to{" "}
+              {fmtSignedPct(f.visit.relative_lift.ci_high)}); purchases {fmtSignedPp(f.purchase.estimate)} (
+              {fmtSignedPp(f.purchase.ci_newcombe[0])} to {fmtSignedPp(f.purchase.ci_newcombe[1])}), a relative lift of{" "}
+              {fmtSignedPct(f.purchase.relative_lift.estimate)} ({fmtSignedPct(f.purchase.relative_lift.ci_low)} to{" "}
+              {fmtSignedPct(f.purchase.relative_lift.ci_high)}).
             </li>
           ))}
         </ul>
         <p className="text-sm text-muted">
-          A question for the owner of the landing experience: the emails brought many more customers to the site than they
-          turned into buyers. What happens to emailed visitors between arriving and purchasing? These data cannot say
-          whether a different landing experience would convert more of them.
+          Descriptive only: among customers who visited, the share who bought was{" "}
+          {Object.entries(visitors.arms)
+            .map(([a, v]) => `${fmtPct(v.purchase_rate_among_visitors, 1)} (${a})`)
+            .join(", ")}
+          . {visitors.reason}
         </p>
+        <p className="text-xs text-muted">{secondary.relative_lift_note}</p>
+        <Sources
+          fields={[
+            "effects_secondary.json: metrics.visit_rate / conversion_rate .contrasts[].estimate, .ci_newcombe, .relative_lift",
+            "effects_secondary.json: purchase_rate_among_visitors (descriptive_only)",
+          ]}
+        />
       </Section>
 
       <Section n={6} title="Limitations">
@@ -220,6 +279,7 @@ export default function Home() {
             {fmtFixed(cuped.correlation_spend_history.pooled, 3)}, which limits both variance reduction and targeting.
           </li>
         </ul>
+        <Sources fields={["cuped.json: correlation_spend_history.pooled", "targeting.json: qini_holdout[].coefficient"]} />
       </Section>
 
       <Section n={7} title="How we know">
