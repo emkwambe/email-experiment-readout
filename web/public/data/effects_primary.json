@@ -1,0 +1,175 @@
+{
+  "manifest": {
+    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-24T00:01:43Z",
+    "script": "python -m liftlab.run --stage sprint2",
+    "seed": 20260923,
+    "stage": "sprint2"
+  },
+  "metric": "revenue_per_customer",
+  "definition": "Mean spend over all customers in the arm, including zeros",
+  "confidence_level": 0.95,
+  "alpha_familywise": 0.05,
+  "holm_family": [
+    "H1",
+    "H2"
+  ],
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20260923,
+    "arm_order": [
+      "No E-Mail",
+      "Mens E-Mail",
+      "Womens E-Mail"
+    ],
+    "method": "percentile, resampling within arm"
+  },
+  "arms": {
+    "No E-Mail": {
+      "n": 21306,
+      "mean": 0.6527893551112361,
+      "se": 0.07938985500595404,
+      "ci_low": 0.49717925815865516,
+      "ci_high": 0.8083994520638171
+    },
+    "Mens E-Mail": {
+      "n": 21307,
+      "mean": 1.422616511005773,
+      "se": 0.12162982441082856,
+      "ci_low": 1.1842128923443604,
+      "ci_high": 1.6610201296671854
+    },
+    "Womens E-Mail": {
+      "n": 21387,
+      "mean": 1.0772015710478329,
+      "se": 0.10336297661408436,
+      "ci_low": 0.8746023932322484,
+      "ci_high": 1.2798007488634173
+    }
+  },
+  "contrasts": [
+    {
+      "id": "H1",
+      "treatment": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "metric": "revenue_per_customer",
+      "estimate": 0.7698271558945368,
+      "se": 0.14524656024868676,
+      "welch_t": 5.300140358411669,
+      "welch_df": 36671.15797736051,
+      "p_value": 1.1638149682254818e-07,
+      "ci_analytic": [
+        0.4851397325684076,
+        1.0545145792206658
+      ],
+      "ci_bootstrap": [
+        0.4933630311169219,
+        1.059583482430093
+      ],
+      "agreement": {
+        "sign_analytic": "above_zero",
+        "sign_bootstrap": "above_zero",
+        "sign_agrees": true,
+        "width_ratio": 0.9944598969244355,
+        "width_ratio_bounds": [
+          0.8,
+          1.25
+        ],
+        "width_ok": true,
+        "passed": true
+      },
+      "relative_lift": {
+        "estimate": 1.1792887703620063,
+        "se": 0.32397689741846725,
+        "ci_low": 0.5443057195987829,
+        "ci_high": 1.8142718211252298
+      },
+      "holm_family": true,
+      "p_holm": 2.3276299364509635e-07,
+      "reject_holm": true
+    },
+    {
+      "id": "H2",
+      "treatment": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "metric": "revenue_per_customer",
+      "estimate": 0.4244122159365967,
+      "se": 0.13033285852919116,
+      "welch_t": 3.2563715760253924,
+      "welch_df": 40064.88440653066,
+      "p_value": 0.0011293971023632473,
+      "ci_analytic": [
+        0.16895678988377877,
+        0.6798676419894147
+      ],
+      "ci_bootstrap": [
+        0.1712095043876816,
+        0.6821494870573649
+      ],
+      "agreement": {
+        "sign_analytic": "above_zero",
+        "sign_bootstrap": "above_zero",
+        "sign_agrees": true,
+        "width_ratio": 1.0000570169216942,
+        "width_ratio_bounds": [
+          0.8,
+          1.25
+        ],
+        "width_ok": true,
+        "passed": true
+      },
+      "relative_lift": {
+        "estimate": 0.6501518638646862,
+        "se": 0.2556293230465503,
+        "ci_low": 0.14912759730109282,
+        "ci_high": 1.1511761304282795
+      },
+      "holm_family": true,
+      "p_holm": 0.0011293971023632473,
+      "reject_holm": true
+    },
+    {
+      "id": "H3",
+      "treatment": "Mens E-Mail",
+      "comparison": "Womens E-Mail",
+      "metric": "revenue_per_customer",
+      "estimate": 0.34541493995794004,
+      "se": 0.15961741484165423,
+      "welch_t": 2.1640178817618563,
+      "welch_df": 41584.5884832084,
+      "p_value": 0.030468651185299227,
+      "ci_analytic": [
+        0.03256144962609531,
+        0.6582684302897848
+      ],
+      "ci_bootstrap": [
+        0.037034980860867525,
+        0.666325334024527
+      ],
+      "agreement": {
+        "sign_analytic": "above_zero",
+        "sign_bootstrap": "above_zero",
+        "sign_agrees": true,
+        "width_ratio": 1.0057269178876174,
+        "width_ratio_bounds": [
+          0.8,
+          1.25
+        ],
+        "width_ok": true,
+        "passed": true
+      },
+      "relative_lift": {
+        "estimate": 0.320659521153448,
+        "se": 0.16972999106814804,
+        "ci_low": -0.012005148436427249,
+        "ci_high": 0.6533241907433232
+      },
+      "holm_family": false,
+      "p_holm": null,
+      "reject_holm": null
+    }
+  ],
+  "all_agreement_passed": true
+}

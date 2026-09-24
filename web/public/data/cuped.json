@@ -1,0 +1,92 @@
+{
+  "manifest": {
+    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-24T00:01:43Z",
+    "script": "python -m liftlab.run --stage sprint2",
+    "seed": 20260923,
+    "stage": "sprint2"
+  },
+  "covariate": "history",
+  "confidence_level": 0.95,
+  "theta": 0.0012754870330541766,
+  "theta_definition": "cov(spend, history) / var(history), pooled over all arms",
+  "history_pooled_mean": 242.08565578124998,
+  "primary_estimate": "unadjusted",
+  "interval": "Welch analytic 95% CI on the adjusted outcome",
+  "variance_by_arm": {
+    "No E-Mail": {
+      "var_unadjusted": 134.28637185302165,
+      "var_adjusted": 134.28041486217106,
+      "variance_reduction": 4.4360352941197334e-05
+    },
+    "Mens E-Mail": {
+      "var_unadjusted": 315.21179886555484,
+      "var_adjusted": 315.02313847663504,
+      "variance_reduction": 0.0005985194386719517
+    },
+    "Womens E-Mail": {
+      "var_unadjusted": 228.4966748346595,
+      "var_adjusted": 228.3730586646933,
+      "variance_reduction": 0.0005409976755926804
+    }
+  },
+  "contrasts": [
+    {
+      "id": "H1",
+      "treatment": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "unadjusted": {
+        "primary": true,
+        "estimate": 0.7698271558945368,
+        "se": 0.14524656024868676,
+        "p_value": 1.1638149682254818e-07,
+        "ci": [
+          0.4851397325684076,
+          1.0545145792206658
+        ]
+      },
+      "adjusted": {
+        "primary": false,
+        "estimate": 0.7673357755525777,
+        "se": 0.14521511383647107,
+        "p_value": 1.2702271567825264e-07,
+        "ci": [
+          0.4827099896074841,
+          1.0519615614976714
+        ]
+      },
+      "se_ratio_adjusted_to_unadjusted": 0.9997834963378006,
+      "sign_agrees": true
+    },
+    {
+      "id": "H2",
+      "treatment": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "unadjusted": {
+        "primary": true,
+        "estimate": 0.4244122159365967,
+        "se": 0.13033285852919116,
+        "p_value": 0.0011293971023632473,
+        "ci": [
+          0.16895678988377877,
+          0.6798676419894147
+        ]
+      },
+      "adjusted": {
+        "primary": false,
+        "estimate": 0.42230258560577305,
+        "se": 0.13030960997747149,
+        "p_value": 0.0011930745345922317,
+        "ci": [
+          0.166892728113048,
+          0.6777124430984981
+        ]
+      },
+      "se_ratio_adjusted_to_unadjusted": 0.9998216217154904,
+      "sign_agrees": true
+    }
+  ],
+  "all_signs_agree": true
+}

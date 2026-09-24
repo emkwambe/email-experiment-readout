@@ -1,0 +1,419 @@
+{
+  "manifest": {
+    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-24T00:01:43Z",
+    "script": "python -m liftlab.run --stage sprint2",
+    "seed": 20260923,
+    "stage": "sprint2"
+  },
+  "metric": "revenue_per_customer",
+  "model": "OLS spend ~ T + segment dummies + T x segment dummies, fitted on one email arm plus No E-Mail",
+  "covariance": "HC3",
+  "confidence_level": 0.95,
+  "interaction_test": "joint Wald chi-square test of all T x segment terms",
+  "segment_effect": "T + T x segment linear combination; 95% normal CI from the full HC3 covariance",
+  "holm": "across all 8 interaction tests (4 dimensions x 2 email arms)",
+  "alpha_familywise": 0.05,
+  "dimensions": [
+    {
+      "id": "prior_merchandise",
+      "label": "Prior merchandise purchase (mens x womens)"
+    },
+    {
+      "id": "newbie",
+      "label": "New customer"
+    },
+    {
+      "id": "channel",
+      "label": "Purchase channel"
+    },
+    {
+      "id": "zip_code",
+      "label": "Zip code class"
+    }
+  ],
+  "n_tests": 8,
+  "n_reject_holm": 0,
+  "tests": [
+    {
+      "arm": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "prior_merchandise",
+      "reference_level": "mens and womens",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[mens only]",
+        "seg[womens only]",
+        "T:seg[mens only]",
+        "T:seg[womens only]"
+      ],
+      "interaction_test": {
+        "chi2": 2.953922219206593,
+        "df": 2,
+        "p_value": 0.2283305065350104,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "mens and womens",
+          "n_email": 2181,
+          "n_control": 2149,
+          "estimate": 1.8249864208618156,
+          "se": 0.6812026590307549,
+          "ci_low": 0.4898537429886174,
+          "ci_high": 3.160119098735014
+        },
+        {
+          "segment": "mens only",
+          "n_email": 9558,
+          "n_control": 9638,
+          "estimate": 0.6827353122998416,
+          "se": 0.2222418245060633,
+          "ci_low": 0.24714934040948638,
+          "ci_high": 1.1183212841901968
+        },
+        {
+          "segment": "womens only",
+          "n_email": 9568,
+          "n_control": 9519,
+          "estimate": 0.6157308065835507,
+          "se": 0.17657012014906381,
+          "ci_low": 0.2696597303454755,
+          "ci_high": 0.9618018828216259
+        }
+      ]
+    },
+    {
+      "arm": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "newbie",
+      "reference_level": "newbie=0",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[newbie=1]",
+        "T:seg[newbie=1]"
+      ],
+      "interaction_test": {
+        "chi2": 1.7275626894656306,
+        "df": 1,
+        "p_value": 0.18872246414559482,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "newbie=0",
+          "n_email": 10621,
+          "n_control": 10611,
+          "estimate": 0.5779669050858003,
+          "se": 0.22265397256079955,
+          "ci_low": 0.14157313785186376,
+          "ci_high": 1.0143606723197367
+        },
+        {
+          "segment": "newbie=1",
+          "n_email": 10686,
+          "n_control": 10695,
+          "estimate": 0.9600198419292394,
+          "se": 0.18686026030045066,
+          "ci_low": 0.5937804615985764,
+          "ci_high": 1.3262592222599023
+        }
+      ]
+    },
+    {
+      "arm": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "channel",
+      "reference_level": "Multichannel",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[Phone]",
+        "seg[Web]",
+        "T:seg[Phone]",
+        "T:seg[Web]"
+      ],
+      "interaction_test": {
+        "chi2": 2.2158400319517293,
+        "df": 2,
+        "p_value": 0.330245151834754,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "Multichannel",
+          "n_email": 2577,
+          "n_control": 2606,
+          "estimate": 1.2091294052619574,
+          "se": 0.41746715225553876,
+          "ci_low": 0.39090882211260225,
+          "ci_high": 2.027349988411313
+        },
+        {
+          "segment": "Phone",
+          "n_email": 9240,
+          "n_control": 9327,
+          "estimate": 0.5640743919691433,
+          "se": 0.20558307830773742,
+          "ci_low": 0.16113896265510036,
+          "ci_high": 0.9670098212831864
+        },
+        {
+          "segment": "Web",
+          "n_email": 9490,
+          "n_control": 9373,
+          "estimate": 0.850448667039911,
+          "se": 0.23127068724827068,
+          "ci_low": 0.39716644935347367,
+          "ci_high": 1.3037308847263482
+        }
+      ]
+    },
+    {
+      "arm": "Mens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "zip_code",
+      "reference_level": "Rural",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[Surburban]",
+        "seg[Urban]",
+        "T:seg[Surburban]",
+        "T:seg[Urban]"
+      ],
+      "interaction_test": {
+        "chi2": 0.0465111252406719,
+        "df": 2,
+        "p_value": 0.9770127639230568,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "Rural",
+          "n_email": 3243,
+          "n_control": 3139,
+          "estimate": 0.7555004171506153,
+          "se": 0.3595347201600056,
+          "ci_low": 0.05082531444531746,
+          "ci_high": 1.4601755198559132
+        },
+        {
+          "segment": "Surburban",
+          "n_email": 9501,
+          "n_control": 9625,
+          "estimate": 0.8038481020590048,
+          "se": 0.22945078890616674,
+          "ci_low": 0.3541328195786154,
+          "ci_high": 1.2535633845393943
+        },
+        {
+          "segment": "Urban",
+          "n_email": 8563,
+          "n_control": 8542,
+          "estimate": 0.7365068185112619,
+          "se": 0.21711694967299955,
+          "ci_low": 0.3109654167189873,
+          "ci_high": 1.1620482203035365
+        }
+      ]
+    },
+    {
+      "arm": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "prior_merchandise",
+      "reference_level": "mens and womens",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[mens only]",
+        "seg[womens only]",
+        "T:seg[mens only]",
+        "T:seg[womens only]"
+      ],
+      "interaction_test": {
+        "chi2": 2.141283814407557,
+        "df": 2,
+        "p_value": 0.342788408432748,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "mens and womens",
+          "n_email": 2118,
+          "n_control": 2149,
+          "estimate": 0.16188124260974077,
+          "se": 0.49768624283770596,
+          "ci_low": -0.8135658689532184,
+          "ci_high": 1.1373283541727
+        },
+        {
+          "segment": "mens only",
+          "n_email": 9622,
+          "n_control": 9638,
+          "estimate": 0.27835448170778543,
+          "se": 0.20507376076529543,
+          "ci_low": -0.1235827035663768,
+          "ci_high": 0.6802916669819477
+        },
+        {
+          "segment": "womens only",
+          "n_email": 9647,
+          "n_control": 9519,
+          "estimate": 0.6316479517709462,
+          "se": 0.17170312545692884,
+          "ci_low": 0.2951160098424032,
+          "ci_high": 0.9681798936994892
+        }
+      ]
+    },
+    {
+      "arm": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "newbie",
+      "reference_level": "newbie=0",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[newbie=1]",
+        "T:seg[newbie=1]"
+      ],
+      "interaction_test": {
+        "chi2": 5.620882466811322,
+        "df": 1,
+        "p_value": 0.01774771046905345,
+        "p_holm": 0.1419816837524276,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "newbie=0",
+          "n_email": 10624,
+          "n_control": 10611,
+          "estimate": 0.11395712053758662,
+          "se": 0.1986994586714688,
+          "ci_low": -0.27548666220609713,
+          "ci_high": 0.5034009032812704
+        },
+        {
+          "segment": "newbie=1",
+          "n_email": 10763,
+          "n_control": 10695,
+          "estimate": 0.7322877956561202,
+          "se": 0.1689337029790871,
+          "ci_low": 0.40118382204212266,
+          "ci_high": 1.0633917692701178
+        }
+      ]
+    },
+    {
+      "arm": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "channel",
+      "reference_level": "Multichannel",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[Phone]",
+        "seg[Web]",
+        "T:seg[Phone]",
+        "T:seg[Web]"
+      ],
+      "interaction_test": {
+        "chi2": 3.583586729613059,
+        "df": 2,
+        "p_value": 0.16666101749932902,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "Multichannel",
+          "n_email": 2579,
+          "n_control": 2606,
+          "estimate": 1.1575358651270813,
+          "se": 0.4585940902999478,
+          "ci_low": 0.2587079646162742,
+          "ci_high": 2.0563637656378884
+        },
+        {
+          "segment": "Phone",
+          "n_email": 9454,
+          "n_control": 9327,
+          "estimate": 0.23247350450947712,
+          "se": 0.1794380848338263,
+          "ci_low": -0.11921867921966534,
+          "ci_high": 0.5841656882386196
+        },
+        {
+          "segment": "Web",
+          "n_email": 9354,
+          "n_control": 9373,
+          "estimate": 0.4163166914707933,
+          "se": 0.1998896128300508,
+          "ci_low": 0.02454024944023825,
+          "ci_high": 0.8080931335013484
+        }
+      ]
+    },
+    {
+      "arm": "Womens E-Mail",
+      "comparison": "No E-Mail",
+      "dimension": "zip_code",
+      "reference_level": "Rural",
+      "coefficients": [
+        "const",
+        "T",
+        "seg[Surburban]",
+        "seg[Urban]",
+        "T:seg[Surburban]",
+        "T:seg[Urban]"
+      ],
+      "interaction_test": {
+        "chi2": 3.0755507858574593,
+        "df": 2,
+        "p_value": 0.214858546007553,
+        "p_holm": 1.0,
+        "reject_holm": false
+      },
+      "segments": [
+        {
+          "segment": "Rural",
+          "n_email": 3181,
+          "n_control": 3139,
+          "estimate": 0.5148413350253316,
+          "se": 0.3237221870658174,
+          "ci_low": -0.11964249262020865,
+          "ci_high": 1.1493251626708718
+        },
+        {
+          "segment": "Surburban",
+          "n_email": 9650,
+          "n_control": 9625,
+          "estimate": 0.1771713935805106,
+          "se": 0.18917570614875648,
+          "ci_low": -0.19360617722098455,
+          "ci_high": 0.5479489643820057
+        },
+        {
+          "segment": "Urban",
+          "n_email": 8556,
+          "n_control": 8542,
+          "estimate": 0.6691353348068954,
+          "se": 0.21474677840016185,
+          "ci_low": 0.24823938334657414,
+          "ci_high": 1.0900312862672166
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 {
   "manifest": {
-    "commit_sha": "77d4a07682fa7330da913b09fe6c32a545d2b360",
+    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-23T23:40:53Z",
-    "script": "python -m liftlab.run --stage sprint1",
+    "generated_utc": "2026-09-24T00:01:43Z",
+    "script": "python -m liftlab.run --stage sprint2",
     "seed": 20260923,
-    "stage": "sprint1"
+    "stage": "sprint2"
   },
   "preregistration": {
     "commit_sha": "48c63f40ef275432fc9464b0d2ce107657270982",
@@ -16,19 +16,35 @@
   "files": [
     {
       "file": "integrity.json",
-      "sha256": "d669060bf9a20b197e1f031f64da9d9a949bf94ea7d8d63b505b8e187462b801"
+      "sha256": "56b0a68b8d80f12935c446cf791dd3f1bf45598c1800ba4119824ec302a8dfc0"
     },
     {
       "file": "srm.json",
-      "sha256": "a8b0bdee89b004982375250599ff1aa9fe426ebd6a2bcb911c6d7ac7f5b52b1e"
+      "sha256": "479f170c0bedf28dd53449b2b9878f9e9fde6ec6cd64e3e312148307c8f2beda"
     },
     {
       "file": "balance.json",
-      "sha256": "b91c8478517ae58c48e76c5d2643fed77a90c3dba02beace3c90bdc48c865173"
+      "sha256": "92fe11c8685bd878f9ebf2494da1f3990c7184f7e98f50ae4d785a3abb0feaea"
     },
     {
       "file": "power.json",
-      "sha256": "5ba20ecf934fa0e2eec868ee9db9d44bb728d134a16cd8eeb49a555af19955e7"
+      "sha256": "cb5b7cb28bd94f71b8927668e837bd6798680a0c312cc7ef1b92a1f7d86a0474"
+    },
+    {
+      "file": "effects_primary.json",
+      "sha256": "11657cdbfed94361523178329d85710f8643c46f7bf60e935cc783f2f5d0c31f"
+    },
+    {
+      "file": "effects_secondary.json",
+      "sha256": "8ed3b3db6eced96f0704aac22be5135100dad2b1aa6f558501834869d6cf50ca"
+    },
+    {
+      "file": "cuped.json",
+      "sha256": "3e0e94c97221541dc53df135286d37e02df42166d1f3ec15c610fd31ae01626a"
+    },
+    {
+      "file": "heterogeneity.json",
+      "sha256": "433bc5cb0d4c4c2f9b92f85c3866b490fad53506eb44eea6947980022ca8cade"
     }
   ],
   "summary": {
@@ -36,6 +52,10 @@
     "srm_p_value": 0.9036929575604196,
     "srm_halt": false,
     "balance_n_flagged": 0,
-    "halted": false
+    "halted": false,
+    "effects_agreement_passed": true,
+    "cuped_signs_agree": true,
+    "heterogeneity_n_tests": 8,
+    "heterogeneity_n_reject_holm": 0
   }
 }

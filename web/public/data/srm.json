@@ -1,12 +1,12 @@
 {
   "manifest": {
-    "commit_sha": "77d4a07682fa7330da913b09fe6c32a545d2b360",
+    "commit_sha": "35adf56815e9cf20c91894cfd1b3af7926c8541e",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-23T23:40:53Z",
-    "script": "python -m liftlab.run --stage sprint1",
+    "generated_utc": "2026-09-24T00:01:43Z",
+    "script": "python -m liftlab.run --stage sprint2",
     "seed": 20260923,
-    "stage": "sprint1"
+    "stage": "sprint2"
   },
   "observed": {
     "Mens E-Mail": 21307,
