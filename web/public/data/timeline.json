@@ -1,0 +1,221 @@
+{
+  "manifest": {
+    "commit_sha": "bbeb1809181c08e386c0ed3f787731374f04a964",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-24T02:01:42Z",
+    "script": "python -m liftlab.run --stage sprint3",
+    "seed": 20260923,
+    "stage": "sprint3"
+  },
+  "timeline": [
+    {
+      "event": "preregistration",
+      "label": "Pre-registration: analysis plan committed",
+      "sha": "48c63f40ef275432fc9464b0d2ce107657270982",
+      "short_sha": "48c63f4",
+      "date_utc": "2026-09-23T22:45:22Z",
+      "subject": "pre-registration: analysis plan and project conventions (before data access)"
+    },
+    {
+      "event": "first_data_access",
+      "label": "First data access: data loader committed",
+      "sha": "6dfc24f8dc21b6f1b1280ada9efe3276ec3f5046",
+      "short_sha": "6dfc24f",
+      "date_utc": "2026-09-23T22:57:40Z",
+      "subject": "Step 3: data loader with provenance and canonical cross-check"
+    },
+    {
+      "event": "deviation",
+      "label": "Plan Deviations entry",
+      "sha": "dbc384b00723c340810c8b02bfecbcad0a7e6942",
+      "short_sha": "dbc384b",
+      "date_utc": "2026-09-23T23:05:21Z",
+      "subject": "Step 4: data-quality gates (integrity, SRM, balance) and planning power grid"
+    },
+    {
+      "event": "outcome_unlock",
+      "label": "Outcome unlock (Sections 6–8)",
+      "sha": "cf44832e9d96b9c9ea00ef9bfcfab077aaf202a5",
+      "short_sha": "cf44832",
+      "date_utc": "2026-09-23T23:41:58Z",
+      "subject": "outcome unlock: sections 6-8 (sprint 2)"
+    },
+    {
+      "event": "deviation",
+      "label": "Plan Deviations entry",
+      "sha": "7a3e0925a4a4cbc000bcff0c66d583b1163e0aa9",
+      "short_sha": "7a3e092",
+      "date_utc": "2026-09-23T23:47:27Z",
+      "subject": "plan deviation: heterogeneity dimension 1 has three levels; sections 6-8 method clarifications"
+    },
+    {
+      "event": "deviation",
+      "label": "Plan Deviations entry",
+      "sha": "363e98b9e42e0ff527ef589ebf01662dbb1836bb",
+      "short_sha": "363e98b",
+      "date_utc": "2026-09-24T00:54:16Z",
+      "subject": "plan deviation: sections 9-10 targeting and decision rules (before any split)"
+    },
+    {
+      "event": "holdout_seal",
+      "label": "Holdout sealed (hash committed before training)",
+      "sha": "3731c5adc24bf001872dc98e59c98ff234038a74",
+      "short_sha": "3731c5a",
+      "date_utc": "2026-09-24T00:58:42Z",
+      "subject": "split and seal holdout (before any model training)"
+    },
+    {
+      "event": "holdout_evaluation",
+      "label": "Holdout evaluated (single use)",
+      "sha": "c9894241159706add7c5778ad8ff556430102ebb",
+      "short_sha": "c989424",
+      "date_utc": "2026-09-24T01:14:55Z",
+      "subject": "holdout evaluation (single use)"
+    }
+  ],
+  "correction_log": {
+    "source": "ai-workflow/correction-log.md",
+    "n_entries": 13,
+    "by_origin": {
+      "Claude Chat": 3,
+      "Claude Code": 10
+    },
+    "by_caught": {
+      "Claude Code pre-check or plan review (before results)": 3,
+      "Claude Code self-review": 3,
+      "Screenshot review": 3,
+      "Human review": 2,
+      "Automated test or guard": 2
+    },
+    "by_sprint": {
+      "1": 5,
+      "2": 4,
+      "3": 4
+    },
+    "caught_rules": [
+      {
+        "label": "Human review",
+        "pattern": "human review"
+      },
+      {
+        "label": "Claude Code pre-check or plan review (before results)",
+        "pattern": "pre-check|plan ambiguity|py -0p|preflight"
+      },
+      {
+        "label": "Automated test or guard",
+        "pattern": "\\btests?\\b.*\\b(fail|caught)|guard tests?|failed on its first run|test run"
+      },
+      {
+        "label": "Screenshot review",
+        "pattern": "screenshot"
+      },
+      {
+        "label": "Claude Code self-review",
+        "pattern": "."
+      }
+    ],
+    "origin_rule": "Claude Chat if the 'What was produced' field names Claude Chat, otherwise Claude Code",
+    "entries": [
+      {
+        "date": "2026-09-23",
+        "sprint": 1,
+        "title": "CLAUDE.md specified a Python runtime that was not installed",
+        "origin": "Claude Chat",
+        "caught_by": "Claude Code pre-check or plan review (before results)"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 1,
+        "title": "Editable install line in requirements.txt resolved against the wrong directory",
+        "origin": "Claude Code",
+        "caught_by": "Claude Code self-review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 1,
+        "title": "Unverified explanation of the dataset hash difference",
+        "origin": "Claude Code",
+        "caught_by": "Claude Code self-review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 1,
+        "title": "Hand-typed numbers in website copy (rule 1)",
+        "origin": "Claude Code",
+        "caught_by": "Claude Code self-review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 1,
+        "title": "Display defects on /checks",
+        "origin": "Claude Code",
+        "caught_by": "Screenshot review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 2,
+        "title": "Balance SMD used sample variance for binary covariates",
+        "origin": "Claude Code",
+        "caught_by": "Human review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 2,
+        "title": "Tables clipped at true phone width on /checks",
+        "origin": "Claude Code",
+        "caught_by": "Screenshot review"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 2,
+        "title": "Plan specified a four-cell mens × womens crossing that the population cannot contain",
+        "origin": "Claude Chat",
+        "caught_by": "Claude Code pre-check or plan review (before results)"
+      },
+      {
+        "date": "2026-09-23",
+        "sprint": 2,
+        "title": "Chart axis labels misstated tick values on /results",
+        "origin": "Claude Code",
+        "caught_by": "Screenshot review"
+      },
+      {
+        "date": "2026-09-24",
+        "sprint": 3,
+        "title": "Planned winner selection would have chosen k on the same holdout used to judge it",
+        "origin": "Claude Chat",
+        "caught_by": "Claude Code pre-check or plan review (before results)"
+      },
+      {
+        "date": "2026-09-24",
+        "sprint": 3,
+        "title": "First split module exposed holdout indices around the guard",
+        "origin": "Claude Code",
+        "caught_by": "Automated test or guard"
+      },
+      {
+        "date": "2026-09-24",
+        "sprint": 3,
+        "title": "Qini test asserted a guessed threshold instead of a derived value",
+        "origin": "Claude Code",
+        "caught_by": "Automated test or guard"
+      },
+      {
+        "date": "2026-09-24",
+        "sprint": 3,
+        "title": "Rule-9 guard test is lexical and flagged a non-targeting module (guard-design limitation)",
+        "origin": "Claude Code",
+        "caught_by": "Human review"
+      }
+    ]
+  },
+  "workflow_files": [
+    "ai-workflow/correction-log.md",
+    "ai-workflow/sprint-1-verification.md",
+    "ai-workflow/sprint-1.md",
+    "ai-workflow/sprint-2-verification.md",
+    "ai-workflow/sprint-2.md",
+    "ai-workflow/sprint-3.md"
+  ]
+}
