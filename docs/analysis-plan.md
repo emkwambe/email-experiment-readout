@@ -1,4 +1,4 @@
-# LiftLab — Pre-Registered Analysis Plan
+# Email-experiment-readout — Pre-Registered Analysis Plan
 
 **Author:** Eddy Mkwambe
 **Status:** Locked. This document was committed before any data loader existed in the repository; the git history is the timestamp. The body below is not edited after commit. Changes are recorded only in the Deviations section at the end.
