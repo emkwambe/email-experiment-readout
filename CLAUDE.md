@@ -66,7 +66,7 @@ Never write commands that require `cd` first. All file writes are UTF-8 without 
 
 8. **Say what you verified.** At the end of every sprint task, report the exact commands run and their actual output (test counts, row counts, p-values from JSON). Never report success without evidence.
 
-9. **No targeting before Sprint 3.** No targeting model or targeting rule may be built, and no train/holdout split may be created, until Sprint 3. Sprint 3 creates the split (analysis-plan Section 9) and derives every targeting rule on the training split only. Sprint 2 heterogeneity results are estimates, not rules: they are never ranked, never turned into a send policy, and never compared against the cost-based decision rule (Section 10).
+9. **Targeting discipline.** Through Sprint 2, no targeting model or rule and no train/holdout split existed. **As of the Sections 9–10 Deviations commit (2026-09-24), targeting work is permitted only as that entry specifies**, and only in these modules: `liftlab/split.py` (the split and the holdout guard), `liftlab/models.py` (training-split models, P3 and P4 selection, policies), `liftlab/evaluate.py` (the only code that may read holdout rows, run once), and `liftlab/decision.py` (Section 10 application). Its outputs appear only in `split.json`, `training.json`, `targeting.json` and `decision.json`. Every targeting choice is made on the training split. The holdout is evaluated once, in a dedicated commit, and never re-evaluated without a Deviations entry. Sprint 2 heterogeneity estimates remain estimates: they are never ranked or hand-turned into a send rule.
 
 ## Style
 

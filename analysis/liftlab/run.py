@@ -23,6 +23,9 @@ SCRIPT: str = "liftlab.run"
 SPRINT1_FILES: list[str] = ["integrity.json", "srm.json", "balance.json", "power.json"]
 # The only exports allowed to hold outcome estimates by arm (CLAUDE.md rule 2, analysis-plan Sections 6-8).
 SPRINT2_FILES: list[str] = ["effects_primary.json", "effects_secondary.json", "cuped.json", "heterogeneity.json"]
+# Sections 9-10 outputs (CLAUDE.md rule 9). Targeting content may appear only in TARGETING_FILES.
+TARGETING_FILES: list[str] = ["split.json", "training.json", "targeting.json", "decision.json"]
+SPRINT3_FILES: list[str] = TARGETING_FILES + ["timeline.json"]
 
 
 def git_commit() -> dict[str, Any]:

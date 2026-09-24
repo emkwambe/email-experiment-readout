@@ -77,3 +77,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code reviewed a desktop screenshot of the locally built page before any commit or deploy.
 - **Fix:** Tick labels now use as many decimals as the ticks need (at least two when any tick is fractional, so "$0.25" and "$0.50"). `niceDomain` also rounds ticks to 12 significant digits, so floating-point noise such as 0.30000000000000004 cannot force a long label. Also fixed in the same review: secondary-metric table cells wrapped mid-number at 390 px. Committed with the Sprint 2 web page.
 - **Lesson / guard added:** Check chart axes in screenshots against the tick values in the data, not only the plotted marks.
+
+**2026-09-24 · Sprint 3 · Planned winner selection would have chosen k on the same holdout used to judge it**
+- **What was produced:** During planning, Claude Chat wrote Sprint 3 Step 1 so that P4a and P4b each spanned 10 top-k variants (k = 10…100), with the winner being the highest holdout net value among all targeted policies.
+- **What was wrong:** Choosing the best of 20 k-variants on the same holdout that then estimates the winner's value, and its paired CI against blanket sending, inflates both (the winner's curse). The comparison would have looked more favourable to targeting than the data supports.
+- **How it was caught:** Claude Code flagged it as a plan ambiguity while reviewing Sprint 3 Step 1, before any split, model or policy value existed.
+- **Fix:** k is now selected for each arm by 5-fold CV net value on the training split. The holdout compares exactly seven pre-selected policies (P0, P1, P2, P3, P4a, P4b, P5), and the holdout net-value-vs-k curves are descriptive only. This is recorded in the 2026-09-24 Deviations entry, committed before the split.
+- **Lesson / guard added:** Every tuning choice, including thresholds such as k, is made on training data only. The holdout data layer raises an error outside `liftlab/evaluate.py`.
