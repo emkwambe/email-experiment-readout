@@ -98,3 +98,10 @@ Each entry is added in the same commit as its fix.
   - The manifest summary line was removed; the hash lives only in `split.json`.
   - The single holdout evaluation gets its own entry point in `evaluate.py` instead of `run.py`.
 - **Lesson / guard added:** An access guard is only as strong as the public API around it. Check every public function for a path that returns guarded data.
+
+**2026-09-24 · Sprint 3 · Qini test asserted a guessed threshold instead of a derived value**
+- **What was produced:** Claude Code's first synthetic Qini test asserted that a perfectly ranked coefficient should exceed 0.2 dollars per customer.
+- **What was wrong:** The threshold was a guess. For uplift τ ~ U(0, 2) with half the customers treated, the expected coefficient is exactly 1/12 ≈ 0.083 per customer, so the test failed (observed 0.0755) even though the Qini code was correct.
+- **How it was caught:** The test failed on its first run, and Claude Code derived the analytic value before changing anything.
+- **Fix:** The test now asserts the derived value (1/12 ± 0.01, n = 40,000) and that a random ranking is near zero. The Qini code was unchanged. Committed with the Step 3 training code.
+- **Lesson / guard added:** A synthetic test asserts a derived expectation, never a guessed bound. A guessed bound can hide a bug as easily as it can flag correct code.
