@@ -161,3 +161,68 @@ Claude Code reviewed desktop and 390 px captures before deploying and fixed:
 - a wrapped break-even marker label;
 - a duplicated "supplementary" label;
 - crowded axis ticks on the policy chart.
+
+## v1.0.1 addendum (patch release, tag `v1.0.1` at `5491933`)
+
+### What changed
+
+- **Readout Section 5 (funnel) corrected.** The v1.0 sentence "the emails brought many more customers to the site than they turned into buyers" was contradicted by the data and has been removed, along with the landing-experience question.
+  - `effects_secondary.json` now exports delta-method relative lifts for visits and purchases, labelled supplementary and not pre-registered.
+  - It also exports purchase rate among visitors per arm, marked `descriptive_only` with the post-treatment selection caveat.
+  - Section 5 is generated from those fields. Both emails lifted visits and purchases. For both, the point estimate of the purchase lift exceeds the visit lift (Mens +119% vs +72%; Womens +54% vs +43%), but the intervals overlap, so the ordering is stated as not statistically established.
+  - Purchase rate among visitors (descriptive only): 5.4% with no email, 6.9% Mens, 5.8% Womens.
+- **Section 3** now states that the holdout exists to compare targeting against blanket sending, not to re-confirm the email effect, which rests on the pre-registered full-sample test.
+- **Sources lines.** Every interpretive sentence on `/` (Sections 2, 3, 5 and 6) is generated conditionally from exported fields and followed by a "Sources" line naming those fields.
+
+### Correction-log entries added
+
+1. **Funnel interpretation on the readout was contradicted by the data.**
+   - Origin: Claude Chat.
+   - Why it lasted: it survived three sprints because the tests verified numbers, not the conclusions drawn from them.
+   - Caught by: human review of the live readout.
+   - Guard: every interpretive sentence cites its exported fields, and review checks each one.
+2. **Correction-log parser silently dropped entries not labelled "Sprint N"** (see below).
+   - Origin: Claude Code.
+   - Caught by: Claude Code's review of the regenerated README block.
+   - Guard: an independent heading-count test.
+
+The log now has 16 entries: 12 from Claude Code, 4 from Claude Chat.
+
+### The `c199d84` undercount and its fix
+
+The Sprint 3 parser in `liftlab/meta.py` matched only `· Sprint N ·` headings, so the first v1.0.1 entry (`· v1.0.1 ·`) was skipped. Commit `c199d84` (v1.0.1 exports) therefore published 14 correction-log entries in `timeline.json`, `/how-its-built` and the README, when the log had 15. The existing consistency test compared the export with the same parser, so it passed.
+
+Commit `90b33eb` fixed it:
+- the heading pattern accepts any phase label;
+- entries carry a `phase` field;
+- `test_every_log_heading_is_parsed` counts headings with an independent pattern;
+- `test_parser_accepts_release_phase` covers release labels.
+
+The statistics were regenerated in `90b33eb` and again from a clean tree in `5491933`.
+
+### Commits
+
+| Commit | What |
+|---|---|
+| `761a3ee` | Funnel correction, sourced sentences, correction-log entry 1 |
+| `c199d84` | Exports from a clean tree (carries the undercount) |
+| `90b33eb` | Parser fix, independent count test, correction-log entry 2 |
+| `5491933` | Exports from a clean tree at `90b33eb`; tagged `v1.0.1` |
+
+Every commit was gated on pytest's own exit code (`set -euo pipefail` and `PIPESTATUS[0]`).
+
+### Test and smoke results
+
+```
+> python -m pytest analysis\tests -q        (at 5491933)
+127 passed in 76.18s (0:01:16)
+> npm --prefix C:\Dev\liftlab-email-experiment\web run smoke
+31/31 checks passed
+```
+
+- The deployed `/` shows "Both emails lifted visits and purchases: every interval lies above zero." and the holdout-purpose sentence. The old "turned into buyers" and landing-experience text is absent.
+- The 390 px check (all 6 pages × light and dark) passes against the local v1.0.1 build: no page overflow and no clipped scroll boxes. Those PNGs are in the gitignored `ai-workflow/evidence/full/`; no new WebPs were committed for the patch.
+
+### Holdout evaluation unchanged
+
+`web/public/data/targeting.json` was not modified by any v1.0.1 commit. `git log -1 --format=%h -- web/public/data/targeting.json` returns `c989424`, the single-use holdout evaluation commit, and the smoke test confirms its manifest dataset hash.
