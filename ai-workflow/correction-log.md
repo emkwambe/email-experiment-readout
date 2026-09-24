@@ -84,3 +84,17 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code flagged it as a plan ambiguity while reviewing Sprint 3 Step 1, before any split, model or policy value existed.
 - **Fix:** k is now selected for each arm by 5-fold CV net value on the training split. The holdout compares exactly seven pre-selected policies (P0, P1, P2, P3, P4a, P4b, P5), and the holdout net-value-vs-k curves are descriptive only. This is recorded in the 2026-09-24 Deviations entry, committed before the split.
 - **Lesson / guard added:** Every tuning choice, including thresholds such as k, is made on training data only. The holdout data layer raises an error outside `liftlab/evaluate.py`.
+
+**2026-09-24 · Sprint 3 · First split module exposed holdout indices around the guard**
+- **What was produced:** Claude Code's first `liftlab/split.py`, its tests, and a `run.py` change.
+- **What was wrong:** Three leaks, all before any model existed.
+  1. The public function `make_split` returned the holdout indices to any caller, so training code could have bypassed the `SplitData.holdout()` guard.
+  2. `run.py` wrote the holdout hash into the `manifest.json` summary, putting a split key into a non-targeting export.
+  3. That also put holdout references into `run.py`, which is not one of the four targeting modules named in CLAUDE.md rule 9.
+- **How it was caught:** Leak 1 was caught by Claude Code's review of its own test code, which recomputed the split through the unguarded function. Leaks 2 and 3 were caught by the updated rule 9 guard tests (`test_no_targeting_or_policy_output_outside_targeting_exports` and `test_targeting_code_only_in_named_modules`) in the dry run before the seal commit.
+- **Fix:**
+  - The split function is now private (`_make_split`). The public API returns only the holdout hash (`holdout_index_sha256`) and the training indices.
+  - A source-scan test fails if any module other than `split.py` and `evaluate.py` references the private internals.
+  - The manifest summary line was removed; the hash lives only in `split.json`.
+  - The single holdout evaluation gets its own entry point in `evaluate.py` instead of `run.py`.
+- **Lesson / guard added:** An access guard is only as strong as the public API around it. Check every public function for a path that returns guarded data.

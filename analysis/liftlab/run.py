@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from liftlab import SEED, checks, effects, heterogeneity, load, power
+from liftlab import SEED, checks, effects, heterogeneity, load, power, split
 
 WEB_DATA: Path = load.REPO_ROOT / "web" / "public" / "data"
 SCRIPT: str = "liftlab.run"
@@ -78,7 +78,7 @@ def write_json(path: Path, payload: dict[str, Any]) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-STAGES: list[str] = ["sprint1", "sprint2"]
+STAGES: list[str] = ["sprint1", "sprint2", "sprint3"]
 
 
 def run_stage(stage: str) -> int:
@@ -108,7 +108,7 @@ def run_stage(stage: str) -> int:
     }
     stop = summary["halted"]
 
-    if stage == "sprint2" and not summary["halted"]:
+    if stage in ("sprint2", "sprint3") and not summary["halted"]:
         results["effects_primary.json"] = effects.primary(df)
         results["effects_secondary.json"] = effects.secondary(df)
         results["cuped.json"] = effects.cuped(df)
@@ -118,6 +118,10 @@ def run_stage(stage: str) -> int:
         summary["heterogeneity_n_tests"] = results["heterogeneity.json"]["n_tests"]
         summary["heterogeneity_n_reject_holm"] = results["heterogeneity.json"]["n_reject_holm"]
         stop = stop or not summary["effects_agreement_passed"] or not summary["cuped_signs_agree"]
+
+    if stage == "sprint3" and not stop:
+        data = split.SplitData(df)
+        results["split.json"] = data.summary()
 
     WEB_DATA.mkdir(parents=True, exist_ok=True)
     file_hashes = {
