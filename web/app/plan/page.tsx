@@ -22,7 +22,7 @@ export default function PlanPage() {
         </a>{" "}
         ({preregistration.committed_utc}). The body is locked; changes appear only under Deviations. Its title uses the
         project&apos;s former name, LiftLab, which was retired to avoid confusion with LiftLab Analytics, Inc.; the
-        locked text is left as committed.
+        locked text is left as committed, and the rename is recorded in its Deviations section.
       </p>
       <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-accent">
         <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{getPlanMarkdown()}</ReactMarkdown>

@@ -177,3 +177,6 @@ Revenue is not margin. The readout states that net profit depends on gross margi
   - Holdout rows are readable only from `liftlab/evaluate.py`; the data layer raises an error anywhere else.
   - The holdout is evaluated once, in a dedicated commit, and is never re-evaluated unless a new Deviations entry justifies it. Re-running the pipeline may only reproduce the committed evaluation and verify it is byte-identical; it may not change it.
 - **Effect on conclusions:** None on Sections 6–8. This entry fully determines how Sections 9–10 turn the estimates into a recommendation, before any holdout result can influence those choices.
+
+**2026-09-24 · Project renamed**
+- Project renamed from LiftLab to Email Experiment Readout on 2026-09-24 to avoid confusion with LiftLab Analytics, Inc. The plan's content is unchanged; references to LiftLab in this document refer to this project.
