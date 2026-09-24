@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from liftlab import SEED, checks, effects, heterogeneity, load, models, power, split
+from liftlab import SEED, checks, decision, effects, heterogeneity, load, models, power, split
 
 WEB_DATA: Path = load.REPO_ROOT / "web" / "public" / "data"
 SCRIPT: str = "liftlab.run"
@@ -124,6 +124,10 @@ def run_stage(stage: str) -> int:
         data = split.SplitData(df)
         results["split.json"] = data.summary()
         results["training.json"] = models.train_all(data.train())["summary"]
+        frozen = WEB_DATA / FROZEN_FILE
+        if frozen.exists():
+            evaluated = json.loads(frozen.read_text(encoding="utf-8"))
+            results["decision.json"] = decision.decide(results["effects_primary.json"], evaluated)
 
     WEB_DATA.mkdir(parents=True, exist_ok=True)
     file_hashes = {
