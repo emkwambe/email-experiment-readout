@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import { getManifest, getPlanMarkdown } from "@/lib/data";
 import { blobUrl, commitUrl, shortSha } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Analysis plan · LiftLab" };
+export const metadata: Metadata = { title: "Analysis plan · Email Experiment Readout" };
 
 export default function PlanPage() {
   const { preregistration } = getManifest();
@@ -20,7 +20,9 @@ export default function PlanPage() {
         <a className="font-mono text-accent underline" href={commitUrl(preregistration.commit_sha)}>
           {shortSha(preregistration.commit_sha)}
         </a>{" "}
-        ({preregistration.committed_utc}). The body is locked; changes appear only under Deviations.
+        ({preregistration.committed_utc}). The body is locked; changes appear only under Deviations. Its title uses the
+        project&apos;s former name, LiftLab, which was retired to avoid confusion with LiftLab Analytics, Inc.; the
+        locked text is left as committed.
       </p>
       <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-accent">
         <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{getPlanMarkdown()}</ReactMarkdown>

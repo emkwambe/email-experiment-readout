@@ -1,8 +1,8 @@
-# CLAUDE.md — LiftLab (liftlab-email-experiment)
+# CLAUDE.md — Email Experiment Readout (repo: email-experiment-readout; local folder: liftlab-email-experiment)
 
 ## What this project is
 
-LiftLab is a public portfolio project that analyzes a real randomized email experiment (the Kevin Hillstrom MineThatData dataset, 64,000 customers, three arms) to answer one business question: did the emails generate incremental revenue, which email, and for which customers should the team send each email next time?
+Email Experiment Readout (formerly named LiftLab; renamed to avoid confusion with LiftLab Analytics, Inc.) is a public portfolio project that analyzes a real randomized email experiment (the Kevin Hillstrom MineThatData dataset, 64,000 customers, three arms) to answer one business question: did the emails generate incremental revenue, which email, and for which customers should the team send each email next time?
 
 It is also an explicit record of how Claude Code was used to build it. The `ai-workflow/` folder is a deliverable, not scratch space. Treat it with the same care as the code.
 

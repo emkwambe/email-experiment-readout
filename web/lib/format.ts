@@ -16,7 +16,7 @@ export const fmtSigned = (x: number, digits: number) => `${x < 0 ? "−" : "+"}$
 
 export const shortSha = (sha: string, n = 7) => sha.slice(0, n);
 
-export const REPO_URL = "https://github.com/emkwambe/liftlab-email-experiment";
+export const REPO_URL = "https://github.com/emkwambe/email-experiment-readout";
 export const commitUrl = (sha: string) => `${REPO_URL}/commit/${sha}`;
 export const treeUrl = (path: string) => `${REPO_URL}/tree/main/${path}`;
 export const blobUrl = (path: string) => `${REPO_URL}/blob/main/${path}`;

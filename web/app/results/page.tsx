@@ -15,7 +15,7 @@ import { SOURCE_SPELLING_FIXES, displaySegment } from "@/lib/labels";
 import { niceDomain } from "@/lib/scale";
 import { IntervalChart, type Series } from "./interval-chart";
 
-export const metadata: Metadata = { title: "Results · LiftLab" };
+export const metadata: Metadata = { title: "Results · Email Experiment Readout" };
 
 const METRIC_LABEL: Record<string, string> = { visit_rate: "Visit rate", conversion_rate: "Conversion rate" };
 

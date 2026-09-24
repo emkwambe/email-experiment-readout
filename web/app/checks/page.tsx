@@ -3,7 +3,7 @@ import { getBalance, getIntegrity, getPower, getSrm } from "@/lib/data";
 import { fmtDollars, fmtFixed, fmtInt, fmtPct, fmtPp, fmtSigned } from "@/lib/format";
 import { METRIC_NAMES, SOURCE_SPELLING_FIXES, displayCovariate, displayGate, isRelabelled } from "@/lib/labels";
 
-export const metadata: Metadata = { title: "Data-quality checks · LiftLab" };
+export const metadata: Metadata = { title: "Data-quality checks · Email Experiment Readout" };
 
 function Status({ ok, okText = "Pass", badText = "Fail" }: { ok: boolean; okText?: string; badText?: string }) {
   return (

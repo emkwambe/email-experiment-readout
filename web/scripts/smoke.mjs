@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const DEFAULT_URL = "https://liftlab-email-experiment.vercel.app";
+const DEFAULT_URL = "https://email-experiment-readout.vercel.app";
 const base = (process.env.SMOKE_URL || DEFAULT_URL).replace(/\/$/, "");
 const dataSourceDoc = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "docs", "data-source.md");
 

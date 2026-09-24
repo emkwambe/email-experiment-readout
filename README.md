@@ -1,9 +1,10 @@
-# LiftLab
+# Email Experiment Readout
 
 **Did a retailer's emails generate incremental revenue, which email, and who should get each one next time? A pre-registered analysis of a real randomized email experiment, built in the open with Claude Code.**
 
-- **Live readout:** https://liftlab-email-experiment.vercel.app
-- **Pre-registration commit:** [`48c63f40ef275432fc9464b0d2ce107657270982`](https://github.com/emkwambe/liftlab-email-experiment/commit/48c63f40ef275432fc9464b0d2ce107657270982). The analysis plan, project rules and Sprint 1 brief were committed before any data loader existed. A test checks that this commit precedes every commit touching the loader.
+- **Live readout:** https://email-experiment-readout.vercel.app
+- **Pre-registration commit:** [`48c63f40ef275432fc9464b0d2ce107657270982`](https://github.com/emkwambe/email-experiment-readout/commit/48c63f40ef275432fc9464b0d2ce107657270982). The analysis plan, project rules and Sprint 1 brief were committed before any data loader existed. A test checks that this commit precedes every commit touching the loader.
+- **Name:** Formerly named LiftLab; renamed to avoid confusion with LiftLab Analytics, Inc. The Python package keeps the internal name `liftlab`, and the local folder is still `liftlab-email-experiment`.
 - **Dataset:** Kevin Hillstrom's MineThatData E-Mail Analytics and Data Mining Challenge (2008). Provenance, hashes and the check against the original file are in [`docs/data-source.md`](docs/data-source.md).
 
 ## Recommendation
@@ -18,7 +19,7 @@
 
 ## Status: complete (Sprint 3 of 3)
 
-| Sprint | Scope | Key commits (see the [timeline](https://liftlab-email-experiment.vercel.app/how-its-built)) |
+| Sprint | Scope | Key commits (see the [timeline](https://email-experiment-readout.vercel.app/how-its-built)) |
 |---|---|---|
 | 1 | Pre-registration, data-quality gates, first deploy | pre-registration `48c63f4` |
 | 2 | Primary and secondary effects, CUPED, heterogeneous effects | outcome unlock `cf44832`, method Deviations `7a3e092` |
@@ -30,7 +31,7 @@ Customers were randomized to a Mens email, a Womens email or no email. After dat
 
 ## How this was built with Claude Code
 
-The project doubles as a record of AI-assisted analysis that can be checked. The full case study, including a timeline generated from git, is at [/how-its-built](https://liftlab-email-experiment.vercel.app/how-its-built).
+The project doubles as a record of AI-assisted analysis that can be checked. The full case study, including a timeline generated from git, is at [/how-its-built](https://email-experiment-readout.vercel.app/how-its-built).
 
 - **Plan in chat, execute in Claude Code, verify by tests.** Each sprint is specified in a brief ([`sprint-1.md`](ai-workflow/sprint-1.md), [`sprint-2.md`](ai-workflow/sprint-2.md), [`sprint-3.md`](ai-workflow/sprint-3.md)), which Claude Code carries out under the binding rules in [`CLAUDE.md`](CLAUDE.md):
   - no hand-typed numbers;
@@ -40,10 +41,10 @@ The project doubles as a record of AI-assisted analysis that can be checked. The
 - **Decisions stay with the human owner.** When the plan was ambiguous or a check failed, Claude Code stopped and asked. Each answer was committed as a dated Deviations entry in [`docs/analysis-plan.md`](docs/analysis-plan.md) before the data that could influence it was visible.
 - **Every caught error is logged, with its fix, in the same commit.**
 <!-- generated:corrections -->
-- **16 errors** caught and recorded in the [correction log](ai-workflow/correction-log.md): 12 from Claude Code, 4 from Claude Chat.
+- **17 errors** caught and recorded in the [correction log](ai-workflow/correction-log.md): 12 from Claude Code, 5 from Claude Chat.
 - How they were caught:
+  - Human review: 5
   - Claude Code self-review: 4
-  - Human review: 4
   - Claude Code pre-check or plan review (before results): 3
   - Screenshot review: 3
   - Automated test or guard: 2
@@ -87,7 +88,7 @@ npm --prefix C:\dev\liftlab-email-experiment\web run screenshots   # 390 px devi
 - One historical send, in 2008.
 - No guardrail data: no unsubscribe, complaint or long-term retention data.
 - No margin data: revenue is not profit, and the cost per email is an assumption. The margin view on the readout is supplementary and was not pre-registered.
-- Weak pre-period features limit both variance reduction and targeting (see [/results](https://liftlab-email-experiment.vercel.app/results) and [/targeting](https://liftlab-email-experiment.vercel.app/targeting)).
+- Weak pre-period features limit both variance reduction and targeting (see [/results](https://email-experiment-readout.vercel.app/results) and [/targeting](https://email-experiment-readout.vercel.app/targeting)).
 
 ## Security note
 
@@ -102,3 +103,7 @@ analysis/        liftlab Python package (load, checks, power, effects, heterogen
                  evaluate, decision, meta, readme, run) and tests
 web/             Next.js 15 readout; web/public/data holds the exported JSON
 ```
+
+---
+
+An analytics case study built with Claude Code by Eddy Mkwambe.

@@ -10,7 +10,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LiftLab",
+  title: "Email Experiment Readout",
   description: "A pre-registered analysis of a randomized email experiment.",
 };
 
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <header className="border-b border-line">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-4 sm:px-6">
             <Link href="/" className="font-semibold tracking-tight">
-              LiftLab
+              Email Experiment Readout
             </Link>
             <nav className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm sm:gap-x-4">
               {NAV.map((n) => (
@@ -47,13 +47,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </header>
         <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">{children}</main>
         <footer className="border-t border-line">
-          <div className="mx-auto max-w-4xl px-4 py-6 text-xs text-muted sm:px-6">
+          <div className="mx-auto max-w-4xl space-y-2 px-4 py-6 text-xs text-muted sm:px-6">
+            <p className="text-sm text-ink">An analytics case study built with Claude Code by Eddy Mkwambe.</p>
+            <p>
             Data exported by <code>{manifest.script}</code> at commit{" "}
             <a className="underline" href={commitUrl(manifest.commit_sha)}>
               {shortSha(manifest.commit_sha)}
             </a>{" "}
             on {manifest.generated_utc}. Dataset SHA-256{" "}
             <code className="break-all">{manifest.dataset_sha256}</code>.
+            </p>
           </div>
         </footer>
       </body>

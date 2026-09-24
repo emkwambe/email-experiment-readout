@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { toWebp } from "./webp.mjs";
 
-const base = (process.env.SCREENSHOT_URL || "https://liftlab-email-experiment.vercel.app").replace(/\/$/, "");
+const base = (process.env.SCREENSHOT_URL || "https://email-experiment-readout.vercel.app").replace(/\/$/, "");
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const set = process.env.SCREENSHOT_SET || "sprint-3";
 const fullDir = process.env.SCREENSHOT_OUT || join(repoRoot, "ai-workflow", "evidence", "full", set);

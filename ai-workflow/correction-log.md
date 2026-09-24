@@ -140,3 +140,16 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code's review of the regenerated README block before tagging v1.0.1: the count had not moved after an entry was added.
 - **Fix:** The heading pattern accepts any phase label (`Sprint N` or a release such as `v1.0.1`), and entries carry a `phase` field. A new test counts entry headings with an independent pattern and fails if the parser returns a different number. Correction statistics were regenerated.
 - **Lesson / guard added:** A parser's coverage is tested against an independent count of what it should find, not only against its own output.
+
+**2026-09-24 · v1.0.2 · Project name collided with an existing company in the same domain**
+- **What was produced:** During planning, Claude Chat proposed the project name "LiftLab". It was used in the repository name, the site title and metadata, the README and CLAUDE.md through v1.0.1.
+- **What was wrong:** Nobody checked the name for existing companies or trademarks in the same field. LiftLab Analytics (liftlab.com) is a real company that sells incrementality testing and marketing measurement, which is exactly the subject of this project, so the name could mislead readers about who made it or suggest an affiliation.
+- **How it was caught:** Human review after the v1.0.1 release.
+- **Fix (v1.0.2):**
+  - The project is renamed "Email Experiment Readout", and the GitHub repo is renamed to `email-experiment-readout`. The old URLs redirect, and no commit SHA changed.
+  - `email-experiment-readout.vercel.app` is the production domain; `liftlab-email-experiment.vercel.app` keeps working.
+  - Site titles, page text, metadata, README, CLAUDE.md prose and the smoke and screenshot default URLs are updated, and the README says "Formerly named LiftLab; renamed to avoid confusion with LiftLab Analytics, Inc."
+  - Left as historical record: commit messages, earlier correction-log entries, sprint briefs, verification files, and the title of the locked analysis plan. `/plan` notes the former name.
+  - The internal Python package name `liftlab` is kept: the frozen `targeting.json` and `split.json` and the committed plan Deviations entries reference `liftlab/*.py` paths, so renaming it would break the historical record.
+  - `tests/test_naming.py` fails if "LiftLab" appears in any public-facing file other than to explain the rename.
+- **Lesson / guard added:** Future project names are descriptive. Any brand-like name is checked with a web search for existing companies or trademarks in the same domain before it is used.

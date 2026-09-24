@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTimeline } from "@/lib/data";
 import { blobUrl, commitUrl, fmtInt, treeUrl } from "@/lib/format";
 
-export const metadata: Metadata = { title: "How it's built · LiftLab" };
+export const metadata: Metadata = { title: "How it's built · Email Experiment Readout" };
 
 const ROLES = [
   {

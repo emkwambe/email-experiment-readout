@@ -6,7 +6,7 @@ import { niceDomain } from "@/lib/scale";
 import { LineChart } from "../line-chart";
 import { IntervalChart, type Series } from "../results/interval-chart";
 
-export const metadata: Metadata = { title: "Targeting · LiftLab" };
+export const metadata: Metadata = { title: "Targeting · Email Experiment Readout" };
 
 const POLICY_LABEL: Record<string, string> = {
   P0: "Send nothing",
