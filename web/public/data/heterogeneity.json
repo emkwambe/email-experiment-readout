@@ -1,12 +1,12 @@
 {
   "manifest": {
-    "commit_sha": "4c93de836959a8c96f41aee2fd27282f62c1f551",
+    "commit_sha": "faeccea23b5849edb0d496488f890369bfce5257",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T00:43:32Z",
-    "script": "python -m liftlab.run --stage sprint2",
+    "generated_utc": "2026-09-24T00:58:07Z",
+    "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
-    "stage": "sprint2"
+    "stage": "sprint3"
   },
   "metric": "revenue_per_customer",
   "model": "OLS spend ~ T + segment dummies + T x segment dummies, fitted on one email arm plus No E-Mail",

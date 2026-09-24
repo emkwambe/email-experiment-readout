@@ -1,0 +1,34 @@
+{
+  "manifest": {
+    "commit_sha": "faeccea23b5849edb0d496488f890369bfce5257",
+    "working_tree_dirty": false,
+    "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
+    "generated_utc": "2026-09-24T00:58:07Z",
+    "script": "python -m liftlab.run --stage sprint3",
+    "seed": 20260923,
+    "stage": "sprint3"
+  },
+  "customer_index": "0-based row position in data/raw/hillstrom.csv",
+  "holdout_fraction": 0.3,
+  "stratified_by": "segment",
+  "seed": 20260923,
+  "n_train": 44800,
+  "n_holdout": 19200,
+  "by_arm": {
+    "No E-Mail": {
+      "train": 14914,
+      "holdout": 6392
+    },
+    "Mens E-Mail": {
+      "train": 14915,
+      "holdout": 6392
+    },
+    "Womens E-Mail": {
+      "train": 14971,
+      "holdout": 6416
+    }
+  },
+  "holdout_index_sha256": "cbe0ca3086bbcdc82c7dcbc2d3680359916dfe31d5817f7632542cd6e6843002",
+  "hash_definition": "sha256 of the ascending holdout customer indices, comma-separated, ASCII",
+  "holdout_readable_only_from": "liftlab/evaluate.py"
+}

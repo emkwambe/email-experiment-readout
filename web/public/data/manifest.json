@@ -1,12 +1,12 @@
 {
   "manifest": {
-    "commit_sha": "4c93de836959a8c96f41aee2fd27282f62c1f551",
+    "commit_sha": "faeccea23b5849edb0d496488f890369bfce5257",
     "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T00:43:32Z",
-    "script": "python -m liftlab.run --stage sprint2",
+    "generated_utc": "2026-09-24T00:58:07Z",
+    "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
-    "stage": "sprint2"
+    "stage": "sprint3"
   },
   "preregistration": {
     "commit_sha": "48c63f40ef275432fc9464b0d2ce107657270982",
@@ -16,35 +16,39 @@
   "files": [
     {
       "file": "integrity.json",
-      "sha256": "5c137183127ebeadba8f503927140879e23055e1e26dcbd6aea2b0cb0a8adce2"
+      "sha256": "2b51251762d7dd63cc33f608a0a9e4211a7d31b100d05e6dffdc3a25b587f79f"
     },
     {
       "file": "srm.json",
-      "sha256": "c4a932eb0066c114ce8ff2f9a9b85033daa1f6c5a4be55d3ee53374818799aee"
+      "sha256": "9beb3f351ac70d0ddb683fce5d459469d28ab9317d762f34aa8978184288d03e"
     },
     {
       "file": "balance.json",
-      "sha256": "590d9592756b3fb2b9ba980febefa3349944576589e98594c47584584d998ed3"
+      "sha256": "b2cb23ce27834a3ad004ad1543b446abb8eb160c68ab6524156d01e7947c6225"
     },
     {
       "file": "power.json",
-      "sha256": "e8e7906de6448dfb878da743d4845dcbb55f289750b594cff359c1d3702d84b0"
+      "sha256": "6a05165d40d2a74975bdd16bfd2cf6d2ee9a1c604efc915e414f8e703a4ad799"
     },
     {
       "file": "effects_primary.json",
-      "sha256": "eeae391d5394f59ad7c901ee45dcd426fe60e0b61bbb34b6aa606d0c22376c2e"
+      "sha256": "e52437b9afb1e5906f594ef286dbae00eb14c53e920a5ccb76b1328084375d70"
     },
     {
       "file": "effects_secondary.json",
-      "sha256": "e0762b5c80691d822e85b7b80efc5b9e03e745b97ff5f7c418055adfc4b3fd58"
+      "sha256": "0857a9563bab39f77d84d6a83a9721eeac36baa4a25014fa571865824ccff1e5"
     },
     {
       "file": "cuped.json",
-      "sha256": "0b47d6e192c36bee756fe38a49befd6336892728842b16d9db08f68be6dc338e"
+      "sha256": "7a204e9c33053fc1a38544452bc57aa9157917aa3defe54c3f9df058c659606b"
     },
     {
       "file": "heterogeneity.json",
-      "sha256": "50a9b01ba4b19d527e0e42873bf0dfd09a1521eb7926e5a1654cffb17b6173b0"
+      "sha256": "b0350b49490a7aca732863be6b1b65e3c84ef8e14426dea3a115d9af6caf3195"
+    },
+    {
+      "file": "split.json",
+      "sha256": "f6b42a2cdeeb1014420c7d01780f51be3b7380734f608cb74b8ed87e54aa73a0"
     }
   ],
   "summary": {
