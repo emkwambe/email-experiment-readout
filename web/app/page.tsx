@@ -35,7 +35,14 @@ export default function Home() {
   const level = fmtLevel(decision.confidence_level);
   const emails = Object.keys(decision.emails);
   const targeted = targeting.policies.filter((p) => p.net_value_minus_best_blanket !== undefined);
-  const bestTargeted = targeted.reduce((a, b) => (b.net_value_minus_best_blanket! > a.net_value_minus_best_blanket! ? b : a));
+  // A targeted policy whose paired difference is exactly zero on every resample assigns the same action as the blanket one.
+  const isSame = (p: (typeof targeted)[number]) =>
+    p.net_value_minus_best_blanket === 0 && p.net_value_minus_best_blanket_ci![0] === 0 && p.net_value_minus_best_blanket_ci![1] === 0;
+  const identical = targeted.filter(isSame).map((p) => p.policy);
+  const distinct = targeted.filter((p) => !isSame(p));
+  const bestDistinct = distinct.length
+    ? distinct.reduce((a, b) => (b.net_value_minus_best_blanket! > a.net_value_minus_best_blanket! ? b : a))
+    : null;
 
   // 2. Why: the two primary contrasts.
   const why = primary.contrasts.filter((c) => c.holm_family);
@@ -116,11 +123,21 @@ export default function Home() {
           <Link href="/targeting" className="text-accent underline">Targeting analysis →</Link>
         </p>
         <p className="text-sm text-muted">
-          The best targeted alternative ({bestTargeted.policy}) differed from {targeting.winner.best_blanket} by{" "}
-          {fmtSignedDollars(bestTargeted.net_value_minus_best_blanket!)} per customer ({level} CI{" "}
-          {fmtSignedDollars(bestTargeted.net_value_minus_best_blanket_ci![0])} to{" "}
-          {fmtSignedDollars(bestTargeted.net_value_minus_best_blanket_ci![1])}). The uplift models ranked customers no better
-          than chance: holdout Qini{" "}
+          {identical.length > 0 && (
+            <>
+              The targeting rules chosen on the training split ({identical.join(", ")}) turned out to assign every customer
+              the same action as {targeting.winner.best_blanket}.{" "}
+            </>
+          )}
+          {bestDistinct && (
+            <>
+              The best targeted policy that did differ ({bestDistinct.policy}) came out{" "}
+              {fmtSignedDollars(bestDistinct.net_value_minus_best_blanket!)} per customer against{" "}
+              {targeting.winner.best_blanket} ({level} CI {fmtSignedDollars(bestDistinct.net_value_minus_best_blanket_ci![0])} to{" "}
+              {fmtSignedDollars(bestDistinct.net_value_minus_best_blanket_ci![1])}).{" "}
+            </>
+          )}
+          The uplift models ranked customers no better than chance: holdout Qini{" "}
           {Object.entries(targeting.qini_holdout)
             .map(([a, q]) => `${a} ${fmtSignedDollars(q.coefficient)}`)
             .join(", ")}{" "}
@@ -167,10 +184,9 @@ export default function Home() {
           })}
         </ul>
         {rec.supplementary_margin_sentence && (
-          <div className="rounded-lg border border-dashed border-line p-4 text-sm">
-            <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">Supplementary · not pre-registered</div>
+          <p className="rounded-lg border border-dashed border-line p-4 text-sm">
             {rec.supplementary_margin_sentence} <span className="text-muted">{decision.margin_view.note}</span>
-          </div>
+          </p>
         )}
       </Section>
 

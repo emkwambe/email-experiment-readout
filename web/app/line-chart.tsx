@@ -127,12 +127,16 @@ export function LineChart({
                 <line x1={px(hx)} x2={px(hx)} y1="0" y2="100" stroke="var(--muted)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
               )}
             </svg>
-            {markers.map((m) => (
-              <span key={`ml${m.x}`} className="absolute top-0 -translate-x-1/2 rounded bg-surface px-1 text-[10px] text-muted"
-                style={{ left: `${px(m.x)}%` }}>
-                {m.label}
-              </span>
-            ))}
+            {markers.map((m, i) => {
+              const pos = px(m.x);
+              const shift = pos > 70 ? "-translate-x-full" : pos < 30 ? "" : "-translate-x-1/2";
+              return (
+                <span key={`ml${m.x}`} className={`absolute whitespace-nowrap rounded bg-surface px-1 text-[10px] text-muted ${shift}`}
+                  style={{ left: `${pos}%`, top: i * 14 }}>
+                  {m.label}
+                </span>
+              );
+            })}
             {hx !== null && hover !== null && (
               <div
                 className="pointer-events-none absolute z-10 rounded-md border border-line bg-surface px-2 py-1.5 text-xs shadow-sm"

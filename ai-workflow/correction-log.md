@@ -115,3 +115,10 @@ Each entry is added in the same commit as its fix.
   - It no longer imports anything from `liftlab`: it computes the repo root itself instead of importing the data-access layer.
   - `tests/test_meta.py` now fails if `meta.py` imports pandas, numpy or any `liftlab` module (split, models, evaluate, decision, load, run), statically or at import time, or opens any path under `data/` while building the record (runtime spy on `open`).
 - **Lesson / guard added:** A lexical scan is a tripwire, not the protection. The authoritative holdout protection is the data-access layer, where `SplitData.holdout()` raises outside `evaluate.py`. Modules that only need to name the holdout get an explicit import-and-access test, not a vocabulary exemption.
+
+**2026-09-24 · Sprint 3 · Commit bbeb180 was made with a failing test because the gate checked the wrong exit code**
+- **What was produced:** Claude Code's shell chain for the Step 7 commit: `pytest ... | tail -1 && git add ... && git commit ...`.
+- **What was wrong:** In a pipeline without `pipefail`, the exit status is that of `tail`, not pytest. pytest reported `1 failed, 121 passed` (the exported `timeline.json` counted 12 correction entries while the log had 13), but the chain went ahead and committed `bbeb180` anyway. The failure was expected staleness, fixed by the clean export commit `e128110`, but the commit gate itself was broken and would have let a real failure through.
+- **How it was caught:** Claude Code noticed the "1 failed" summary line above its own commit output. Human review then asked for a correction-log entry rather than only a note in the verification file.
+- **Fix:** Every commit is now gated on pytest's own exit status. Bash commands run with `set -euo pipefail` (or check `PIPESTATUS`), and PowerShell commands capture `$LASTEXITCODE` from pytest before any pipe and commit only when it is 0, as for `e128110`. `timeline.json` is regenerated after this entry so its statistics match the log.
+- **Lesson / guard added:** Never let a pipe decide whether to commit. Gate commits on the test runner's own exit code.

@@ -50,7 +50,7 @@ export default function TargetingPage() {
 
   // Policy comparison: net value vs sending nothing, with paired CIs.
   const series: Series[] = [{ key: "nv", name: `Net value vs P0, ${ciLevel} CI`, color: "var(--series-1)" }];
-  const scale = niceDomain(t.policies.flatMap((p) => p.net_value_vs_p0_ci));
+  const scale = niceDomain(t.policies.flatMap((p) => p.net_value_vs_p0_ci), 4);
   const kScale = niceDomain(Object.values(t.net_value_by_k).flatMap((c) => c.flatMap((r) => r.net_value_vs_p0_ci)));
 
   return (
@@ -117,9 +117,17 @@ export default function TargetingPage() {
                 {p.net_value_minus_best_blanket !== undefined && (
                   <>
                     <br />
-                    vs {t.winner.best_blanket}: {fmtSignedDollars(p.net_value_minus_best_blanket)} (
-                    {fmtSignedDollars(p.net_value_minus_best_blanket_ci![0])} to{" "}
-                    {fmtSignedDollars(p.net_value_minus_best_blanket_ci![1])})
+                    {p.net_value_minus_best_blanket === 0 &&
+                    p.net_value_minus_best_blanket_ci![0] === 0 &&
+                    p.net_value_minus_best_blanket_ci![1] === 0 ? (
+                      <>Assigns every customer the same action as {t.winner.best_blanket}.</>
+                    ) : (
+                      <>
+                        vs {t.winner.best_blanket}: {fmtSignedDollars(p.net_value_minus_best_blanket)} (
+                        {fmtSignedDollars(p.net_value_minus_best_blanket_ci![0])} to{" "}
+                        {fmtSignedDollars(p.net_value_minus_best_blanket_ci![1])})
+                      </>
+                    )}
                   </>
                 )}
               </>
@@ -223,6 +231,14 @@ export default function TargetingPage() {
             </li>
           ))}
         </ul>
+        {training.selection.p3_candidates.filter(
+          (c) => c.cv_net_value_mean === Math.max(...training.selection.p3_candidates.map((x) => x.cv_net_value_mean)),
+        ).length > 1 && (
+          <p className="text-xs text-muted">
+            The top candidates tied exactly because their rules made identical assignments; the pre-registered tie-break
+            (dimension order) selected the first.
+          </p>
+        )}
         <p className="text-sm">
           Selected rule ({DIMENSION_LABEL[t.selected.p3_dimension] ?? t.selected.p3_dimension}):{" "}
           {Object.entries(t.selected.p3_rule)

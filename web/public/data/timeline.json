@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "bbeb1809181c08e386c0ed3f787731374f04a964",
-    "working_tree_dirty": false,
+    "commit_sha": "e128110494a326dd6972721a66127676e85495af",
+    "working_tree_dirty": true,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T02:01:42Z",
+    "generated_utc": "2026-09-24T02:15:19Z",
     "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
     "stage": "sprint3"
@@ -76,22 +76,22 @@
   ],
   "correction_log": {
     "source": "ai-workflow/correction-log.md",
-    "n_entries": 13,
+    "n_entries": 14,
     "by_origin": {
       "Claude Chat": 3,
-      "Claude Code": 10
+      "Claude Code": 11
     },
     "by_caught": {
       "Claude Code pre-check or plan review (before results)": 3,
       "Claude Code self-review": 3,
       "Screenshot review": 3,
-      "Human review": 2,
+      "Human review": 3,
       "Automated test or guard": 2
     },
     "by_sprint": {
       "1": 5,
       "2": 4,
-      "3": 4
+      "3": 5
     },
     "caught_rules": [
       {
@@ -205,6 +205,13 @@
         "date": "2026-09-24",
         "sprint": 3,
         "title": "Rule-9 guard test is lexical and flagged a non-targeting module (guard-design limitation)",
+        "origin": "Claude Code",
+        "caught_by": "Human review"
+      },
+      {
+        "date": "2026-09-24",
+        "sprint": 3,
+        "title": "Commit bbeb180 was made with a failing test because the gate checked the wrong exit code",
         "origin": "Claude Code",
         "caught_by": "Human review"
       }

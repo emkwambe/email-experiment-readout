@@ -104,7 +104,7 @@ export default function HowItsBuiltPage() {
           {log.entries.map((e) => (
             <li key={`${e.date}-${e.title}`}>
               <span className="num text-muted">Sprint {e.sprint}</span> · {e.title}{" "}
-              <span className="text-xs text-muted">({e.origin}; {e.caught_by.toLowerCase()})</span>
+              <span className="text-xs text-muted">({e.origin} · {e.caught_by})</span>
             </li>
           ))}
         </ul>
