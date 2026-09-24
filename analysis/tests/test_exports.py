@@ -6,7 +6,7 @@ import subprocess
 from typing import Any
 
 from liftlab import load
-from liftlab.run import SPRINT1_FILES, WEB_DATA, documented_sha256
+from liftlab.run import FROZEN_FILE, SPRINT1_FILES, WEB_DATA, documented_sha256
 
 MANIFEST_KEYS = {"commit_sha", "working_tree_dirty", "dataset_sha256", "generated_utc", "script", "seed", "stage"}
 
@@ -29,11 +29,13 @@ def test_manifest_lists_exactly_the_published_exports(exports: dict[str, Any]) -
 
 
 def test_every_published_file_shares_one_manifest(exports: dict[str, Any]) -> None:
+    # The single-use holdout evaluation keeps the manifest of the run that produced it.
     run_manifest = exports["manifest.json"]["manifest"]
     for path in WEB_DATA.glob("*.json"):
         m = json.loads(path.read_text(encoding="utf-8"))["manifest"]
-        assert m == run_manifest, path.name
         assert m["dataset_sha256"] == documented_sha256(), path.name
+        if path.name != FROZEN_FILE:
+            assert m == run_manifest, path.name
 
 
 def test_local_dataset_matches_documented_hash() -> None:

@@ -26,6 +26,7 @@ SPRINT2_FILES: list[str] = ["effects_primary.json", "effects_secondary.json", "c
 # Sections 9-10 outputs (CLAUDE.md rule 9). Targeting content may appear only in TARGETING_FILES.
 TARGETING_FILES: list[str] = ["split.json", "training.json", "targeting.json", "decision.json"]
 SPRINT3_FILES: list[str] = TARGETING_FILES + ["timeline.json"]
+FROZEN_FILE: str = "targeting.json"  # written once by `python -m liftlab.evaluate`
 
 
 def git_commit() -> dict[str, Any]:
@@ -128,10 +129,15 @@ def run_stage(stage: str) -> int:
     file_hashes = {
         name: write_json(WEB_DATA / name, {"manifest": m, **payload}) for name, payload in results.items()
     }
+    files = [{"file": n, "sha256": h} for n, h in file_hashes.items()]
+    # Single-use evaluation output: listed with its own manifest, never rewritten by a stage run.
+    frozen = WEB_DATA / FROZEN_FILE
+    if frozen.exists():
+        files.append({"file": FROZEN_FILE, "sha256": hashlib.sha256(frozen.read_bytes()).hexdigest(), "frozen": True})
     write_json(WEB_DATA / "manifest.json", {
         "manifest": m,
         "preregistration": preregistration(),
-        "files": [{"file": n, "sha256": h} for n, h in file_hashes.items()],
+        "files": files,
         "summary": summary,
     })
     print(json.dumps({"manifest": m, "summary": summary}, indent=2))
