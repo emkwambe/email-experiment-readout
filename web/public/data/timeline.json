@@ -1,9 +1,9 @@
 {
   "manifest": {
-    "commit_sha": "645cd1ac66107e93f8d9be2462cd05d2a4ade697",
-    "working_tree_dirty": true,
+    "commit_sha": "e06cca2890eaf8b3682c9b142178eead61f323a2",
+    "working_tree_dirty": false,
     "dataset_sha256": "00a6a868e05a9ffe7382da51629f6d6dce88c5acfc945e79d314ebc78fd3a2c0",
-    "generated_utc": "2026-09-24T03:44:29Z",
+    "generated_utc": "2026-09-24T03:50:03Z",
     "script": "python -m liftlab.run --stage sprint3",
     "seed": 20260923,
     "stage": "sprint3"
@@ -72,6 +72,14 @@
       "short_sha": "c989424",
       "date_utc": "2026-09-24T01:14:55Z",
       "subject": "holdout evaluation (single use)"
+    },
+    {
+      "event": "deviation",
+      "label": "Plan Deviations entry",
+      "sha": "e06cca2890eaf8b3682c9b142178eead61f323a2",
+      "short_sha": "e06cca2",
+      "date_utc": "2026-09-24T03:49:47Z",
+      "subject": "plan deviation: project renamed from LiftLab to Email Experiment Readout (plan content unchanged)"
     }
   ],
   "correction_log": {
