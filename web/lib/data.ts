@@ -257,3 +257,136 @@ export const getEffectsPrimary = () => read<EffectsPrimary>("effects_primary.jso
 export const getEffectsSecondary = () => read<EffectsSecondary>("effects_secondary.json");
 export const getCuped = () => read<Cuped>("cuped.json");
 export const getHeterogeneity = () => read<Heterogeneity>("heterogeneity.json");
+
+// ---------- Sprint 3 (analysis-plan Sections 9-10) ----------
+
+export type QiniCurve = { phi: number[]; q: number[]; coefficient: number; n: number };
+
+export type PolicyRow = {
+  policy: string;
+  share_sent: number;
+  action_share: Record<string, number>;
+  value: number;
+  net_value: number;
+  incremental_revenue_vs_p0: number;
+  incremental_revenue_vs_p0_ci: Interval;
+  net_value_vs_p0: number;
+  net_value_vs_p0_ci: Interval;
+  hajek_value: number;
+  hajek_incremental_revenue_vs_p0: number;
+  hajek_incremental_revenue_vs_p0_ci: Interval;
+  hajek_sign_disagrees: boolean;
+  net_value_minus_best_blanket?: number;
+  net_value_minus_best_blanket_ci?: Interval;
+};
+
+export type Winner = {
+  highest_net_value: string;
+  best_blanket: string;
+  winner: string;
+  targeting_beat_blanket: boolean;
+  reason: string;
+};
+
+export type Targeting = {
+  manifest: Manifest;
+  evaluated_at_code_commit_sha: string;
+  estimator: string;
+  robustness_estimator: string;
+  bootstrap: { resamples: number; seed: number; paired: boolean; interval: string };
+  cost: number;
+  holdout_index_sha256: string;
+  n_holdout: number;
+  holdout_arm_share: Record<string, number>;
+  selected: { p3_dimension: string; p3_rule: Record<string, string>; p4a_k: number; p4b_k: number };
+  policies: PolicyRow[];
+  winner: Winner;
+  hajek_sign_flags: string[];
+  qini_holdout: Record<string, QiniCurve>;
+  net_value_by_k: Record<string, { k: number; net_value_vs_p0: number; net_value_vs_p0_ci: Interval }[]>;
+  cost_grid: ({ cost: number } & Record<string, { net_value_vs_p0: number; net_value_vs_p0_ci: Interval; share_sent: number }>)[];
+};
+
+export type Training = {
+  manifest: Manifest;
+  n_train: number;
+  tuning: Record<string, { chosen: Record<string, number>; cv_mse: number }>;
+  oof_qini: Record<string, QiniCurve>;
+  oof_note: string;
+  selection: {
+    p3_candidates: { dimension: string; cv_net_value_mean: number; cv_net_value_folds: number[] }[];
+    p3_selected_dimension: string;
+    p3_rule: { dimension: string; rule: Record<string, string>; training_net_value: Record<string, Record<string, number>> };
+    p4: Record<string, { chosen_k: number; by_k: { k: number; cv_net_value_mean: number }[] }>;
+  };
+  p5_training_oof_action_share: Record<string, number>;
+};
+
+export type EmailDecision = {
+  contrast: string;
+  incremental_revenue_per_customer: number;
+  ci_analytic: Interval;
+  ci_bootstrap: Interval;
+  status: string;
+  status_if_bootstrap_bound: string;
+  break_even_cost_at_estimate: number;
+  break_even_cost_at_lower_bound: number;
+  break_even_cost_at_bootstrap_lower_bound: number;
+  minimum_margin_at_estimate: number | null;
+  minimum_margin_at_lower_bound: number | null;
+};
+
+export type Decision = {
+  manifest: Manifest;
+  cost: number;
+  confidence_level: number;
+  interval: string;
+  status_rule: Record<string, string>;
+  emails: Record<string, EmailDecision>;
+  sensitivity: ({ cost: number } & Record<string, { net_at_estimate: number; net_at_lower_bound: number; status: string }>)[];
+  margin_view: { supplementary: boolean; pre_registered: boolean; note: string; definition: string };
+  winner: Winner & { holdout: { net_value_vs_p0: number; net_value_vs_p0_ci: Interval } };
+  evaluated_at_code_commit_sha: string;
+  recommendation: {
+    kind: string;
+    policy: string;
+    emails_sent: string[];
+    email_status: Record<string, string>;
+    targeting_beat_blanket: boolean;
+    cost_assumption: number;
+    sentence: string;
+    supplementary_margin_sentence: string | null;
+    holdout: {
+      policy: string;
+      net_value_vs_p0: number;
+      net_value_vs_p0_ci: Interval;
+      incremental_revenue_vs_p0: number;
+      incremental_revenue_vs_p0_ci: Interval;
+      share_sent: number;
+    };
+  };
+};
+
+export type TimelineEvent = { event: string; label: string; sha: string; short_sha: string; date_utc: string; subject: string };
+
+export type WorkflowRecord = {
+  manifest: Manifest;
+  timeline: TimelineEvent[];
+  correction_log: {
+    source: string;
+    n_entries: number;
+    by_origin: Record<string, number>;
+    by_caught: Record<string, number>;
+    by_sprint: Record<string, number>;
+    origin_rule: string;
+    entries: { date: string; sprint: number; title: string; origin: string; caught_by: string }[];
+  };
+  workflow_files: string[];
+};
+
+export const getTargeting = () => read<Targeting>("targeting.json");
+export const getTraining = () => read<Training>("training.json");
+export const getDecision = () => read<Decision>("decision.json");
+export const getTimeline = () => read<WorkflowRecord>("timeline.json");
+export const getSplit = () =>
+  read<{ manifest: Manifest; n_train: number; n_holdout: number; holdout_index_sha256: string }>("split.json");

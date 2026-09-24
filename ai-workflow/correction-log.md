@@ -105,3 +105,13 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** The test failed on its first run, and Claude Code derived the analytic value before changing anything.
 - **Fix:** The test now asserts the derived value (1/12 ± 0.01, n = 40,000) and that a random ranking is near zero. The Qini code was unchanged. Committed with the Step 3 training code.
 - **Lesson / guard added:** A synthetic test asserts a derived expectation, never a guessed bound. A guessed bound can hide a bug as easily as it can flag correct code.
+
+**2026-09-24 · Sprint 3 · Rule-9 guard test is lexical and flagged a non-targeting module (guard-design limitation)**
+- **What was produced:** Claude Code's Sprint 2 rule-9 guard test (`test_targeting_code_only_in_named_modules`), which scans module source for targeting vocabulary such as "holdout" and "qini", and the Sprint 3 `liftlab/meta.py` that builds the git timeline.
+- **What was wrong:** The test matches words, not behaviour. It flagged `meta.py` because the module names the "holdout sealed" and "holdout evaluated" milestones and the export paths it looks up in `git log`. `meta.py` never touches the dataset, the split or any model. This was a false positive caused by how the guard was designed; no holdout protection was breached.
+- **How it was caught:** The guard test failed in the Step 7 dry run. Claude Code stopped at the guard violation and the human owner chose the fix (human review).
+- **Fix:**
+  - `meta.py` is allowlisted in CLAUDE.md rule 9 as a read-only workflow-record module.
+  - It no longer imports anything from `liftlab`: it computes the repo root itself instead of importing the data-access layer.
+  - `tests/test_meta.py` now fails if `meta.py` imports pandas, numpy or any `liftlab` module (split, models, evaluate, decision, load, run), statically or at import time, or opens any path under `data/` while building the record (runtime spy on `open`).
+- **Lesson / guard added:** A lexical scan is a tripwire, not the protection. The authoritative holdout protection is the data-access layer, where `SplitData.holdout()` raises outside `evaluate.py`. Modules that only need to name the holdout get an explicit import-and-access test, not a vocabulary exemption.
