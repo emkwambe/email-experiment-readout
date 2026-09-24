@@ -15,6 +15,10 @@
   --fail: #b3261e;
   --fail-bg: #fbe9e7;
   --flag-bg: #fff4d6;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --grid: #e8e6e1;
+  --zero: #8a8f98;
   color-scheme: light;
 }
 
@@ -30,6 +34,10 @@
   --fail: #f28b82;
   --fail-bg: #3a1a18;
   --flag-bg: #3a3014;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --grid: #262a31;
+  --zero: #6b727d;
   color-scheme: dark;
 }
 
@@ -45,6 +53,10 @@
   --color-fail: var(--fail);
   --color-fail-bg: var(--fail-bg);
   --color-flag-bg: var(--flag-bg);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-grid: var(--grid);
+  --color-zero: var(--zero);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

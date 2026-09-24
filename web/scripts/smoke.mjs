@@ -20,7 +20,7 @@ async function get(path) {
 
 console.log(`Smoke test against ${base}`);
 
-for (const path of ["/", "/plan", "/checks", "/how-its-built"]) {
+for (const path of ["/", "/plan", "/checks", "/how-its-built", "/results"]) {
   try {
     const res = await get(path);
     check(`GET ${path} returns 200`, res.status === 200, `status ${res.status}`);
@@ -51,6 +51,34 @@ try {
   check("srm.json has a numeric p-value", typeof p === "number" && Number.isFinite(p), `p_value ${p}`);
 } catch (e) {
   check("srm.json has a numeric p-value", false, String(e));
+}
+
+const documentedSha = readFileSync(dataSourceDoc, "utf-8").match(/\| SHA-256 \| `([0-9a-f]{64})` \|/)?.[1];
+
+try {
+  const res = await get("/data/effects_primary.json");
+  const primary = await res.json();
+  for (const id of ["H1", "H2"]) {
+    const c = primary?.contrasts?.find((x) => x.id === id);
+    const p = c?.p_holm;
+    check(`effects_primary.json ${id} has a numeric Holm-adjusted p-value`, typeof p === "number" && Number.isFinite(p), `p_holm ${p}`);
+  }
+} catch (e) {
+  check("effects_primary.json loads", false, String(e));
+}
+
+for (const name of ["effects_primary.json", "effects_secondary.json", "cuped.json", "heterogeneity.json"]) {
+  try {
+    const res = await get(`/data/${name}`);
+    const sha = (await res.json())?.manifest?.dataset_sha256;
+    check(
+      `${name} manifest dataset SHA-256 matches docs/data-source.md`,
+      res.status === 200 && Boolean(documentedSha) && sha === documentedSha,
+      `status ${res.status}, ${sha?.slice(0, 12)}…`,
+    );
+  } catch (e) {
+    check(`${name} manifest dataset SHA-256 matches docs/data-source.md`, false, String(e));
+  }
 }
 
 const failed = results.filter((ok) => !ok).length;

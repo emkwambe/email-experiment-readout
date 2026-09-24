@@ -70,3 +70,10 @@ Each entry is added in the same commit as its fix.
 - **How it was caught:** Claude Code's covariate-only pre-check (cell counts of `mens` × `womens`, overall and by arm) before any effect estimate was computed. It stopped and reported the discrepancy while no outcome results were visible.
 - **Fix:** A dated Deviations entry in `docs/analysis-plan.md` makes dimension 1 three levels (2 interaction df), keeps the Holm family at 8 tests, and records all Sections 6–8 method clarifications before any estimate. Committed on its own, before `effects.py` exists.
 - **Lesson / guard added:** Future plans must check categorical cell structure against the data documentation (population definition, possible combinations of levels) before specifying crossings.
+
+**2026-09-23 · Sprint 2 · Chart axis labels misstated tick values on /results**
+- **What was produced:** In its first draft of `/results`, Claude Code's dollar-axis formatter wrote non-integer ticks with one decimal place.
+- **What was wrong:** With a tick step of $0.25, the ticks $0.25, $0.75 and $1.25 were labelled "$0.3", "$0.8" and "$1.3", so the axis misstated where the intervals sit. Every number in the text and tooltips was correct; only the axis labels were wrong.
+- **How it was caught:** Claude Code reviewed a desktop screenshot of the locally built page before any commit or deploy.
+- **Fix:** Tick labels now use as many decimals as the ticks need (at least two when any tick is fractional, so "$0.25" and "$0.50"). `niceDomain` also rounds ticks to 12 significant digits, so floating-point noise such as 0.30000000000000004 cannot force a long label. Also fixed in the same review: secondary-metric table cells wrapped mid-number at 390 px. Committed with the Sprint 2 web page.
+- **Lesson / guard added:** Check chart axes in screenshots against the tick values in the data, not only the plotted marks.

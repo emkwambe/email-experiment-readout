@@ -50,3 +50,16 @@ export const METRIC_NAMES: Record<string, string> = {
   visit_rate: "Visit rate",
   revenue_per_customer: "Revenue per customer",
 };
+
+const SEGMENT_NAMES: Record<string, Record<string, string>> = {
+  prior_merchandise: {
+    "mens only": "Bought men's only",
+    "womens only": "Bought women's only",
+    "mens and womens": "Bought both",
+  },
+  newbie: { "newbie=0": "Existing customer", "newbie=1": "New customer" },
+};
+
+export function displaySegment(dimension: string, raw: string): string {
+  return SEGMENT_NAMES[dimension]?.[raw] ?? displayLevel(raw);
+}

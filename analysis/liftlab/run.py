@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from liftlab import SEED, checks, load, power
+from liftlab import SEED, checks, effects, heterogeneity, load, power
 
 WEB_DATA: Path = load.REPO_ROOT / "web" / "public" / "data"
 SCRIPT: str = "liftlab.run"
@@ -75,7 +75,11 @@ def write_json(path: Path, payload: dict[str, Any]) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def run_sprint1() -> int:
+STAGES: list[str] = ["sprint1", "sprint2"]
+
+
+def run_stage(stage: str) -> int:
+    """Stages are cumulative: sprint2 regenerates the Sprint 1 exports as well as its own."""
     raw = load.fetch_raw()
     expected = documented_sha256()
     if raw.sha256 != expected:
@@ -84,7 +88,7 @@ def run_sprint1() -> int:
     df = load.load()
 
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    m = manifest(raw.sha256, "sprint1", generated)
+    m = manifest(raw.sha256, stage, generated)
     arm_sizes = checks.srm(df)["observed"]
     results: dict[str, dict[str, Any]] = {
         "integrity.json": checks.integrity(df),
@@ -92,17 +96,29 @@ def run_sprint1() -> int:
         "balance.json": checks.balance(df),
         "power.json": power.power_grid(arm_sizes, checks.CONTROL_ARM, checks.TREATMENT_ARMS),
     }
-
-    WEB_DATA.mkdir(parents=True, exist_ok=True)
-    file_hashes = {
-        name: write_json(WEB_DATA / name, {"manifest": m, **payload}) for name, payload in results.items()
-    }
-    summary = {
+    summary: dict[str, Any] = {
         "integrity_passed": results["integrity.json"]["passed"],
         "srm_p_value": results["srm.json"]["p_value"],
         "srm_halt": results["srm.json"]["halt"],
         "balance_n_flagged": results["balance.json"]["n_flagged"],
         "halted": (not results["integrity.json"]["passed"]) or results["srm.json"]["halt"],
+    }
+    stop = summary["halted"]
+
+    if stage == "sprint2" and not summary["halted"]:
+        results["effects_primary.json"] = effects.primary(df)
+        results["effects_secondary.json"] = effects.secondary(df)
+        results["cuped.json"] = effects.cuped(df)
+        results["heterogeneity.json"] = heterogeneity.heterogeneity(df)
+        summary["effects_agreement_passed"] = results["effects_primary.json"]["all_agreement_passed"]
+        summary["cuped_signs_agree"] = results["cuped.json"]["all_signs_agree"]
+        summary["heterogeneity_n_tests"] = results["heterogeneity.json"]["n_tests"]
+        summary["heterogeneity_n_reject_holm"] = results["heterogeneity.json"]["n_reject_holm"]
+        stop = stop or not summary["effects_agreement_passed"] or not summary["cuped_signs_agree"]
+
+    WEB_DATA.mkdir(parents=True, exist_ok=True)
+    file_hashes = {
+        name: write_json(WEB_DATA / name, {"manifest": m, **payload}) for name, payload in results.items()
     }
     write_json(WEB_DATA / "manifest.json", {
         "manifest": m,
@@ -111,14 +127,14 @@ def run_sprint1() -> int:
         "summary": summary,
     })
     print(json.dumps({"manifest": m, "summary": summary}, indent=2))
-    return 1 if summary["halted"] else 0
+    return 1 if stop else 0
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--stage", required=True, choices=["sprint1"])
+    parser.add_argument("--stage", required=True, choices=STAGES)
     args = parser.parse_args(argv)
-    return {"sprint1": run_sprint1}[args.stage]()
+    return run_stage(args.stage)
 
 
 if __name__ == "__main__":

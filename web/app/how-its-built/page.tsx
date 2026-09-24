@@ -14,7 +14,7 @@ const STEPS = [
   },
   {
     title: "Verify with tests",
-    body: "A result isn't done until a test asserts it: integrity gates, a sample-ratio check against a hand-worked example, SMD against known answers, power calculations against an independent statsmodels computation, and a guard test that fails if any export holds an outcome broken down by group.",
+    body: "A result isn't done until a test asserts it against an independent computation: effect sizes recomputed in DuckDB SQL from the raw file, Welch tests against scipy and statsmodels, the Newcombe interval against its published worked example, bootstrap and analytic intervals checked for agreement, plus the data-quality gates. A guard test allows outcomes by email group only in the pre-registered estimate files and fails on any targeting output before Sprint 3.",
   },
 ];
 

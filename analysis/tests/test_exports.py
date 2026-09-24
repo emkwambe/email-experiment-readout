@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 from typing import Any
 
 from liftlab import load
-from liftlab.run import SPRINT1_FILES, documented_sha256
+from liftlab.run import SPRINT1_FILES, WEB_DATA, documented_sha256
 
 MANIFEST_KEYS = {"commit_sha", "working_tree_dirty", "dataset_sha256", "generated_utc", "script", "seed", "stage"}
 
@@ -20,8 +21,19 @@ def test_every_export_has_manifest(exports: dict[str, Any]) -> None:
         assert re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", m["generated_utc"]), name
 
 
-def test_manifest_lists_all_exports(exports: dict[str, Any]) -> None:
-    assert [f["file"] for f in exports["manifest.json"]["files"]] == SPRINT1_FILES
+def test_manifest_lists_exactly_the_published_exports(exports: dict[str, Any]) -> None:
+    listed = [f["file"] for f in exports["manifest.json"]["files"]]
+    present = sorted(p.name for p in WEB_DATA.glob("*.json") if p.name != "manifest.json")
+    assert sorted(listed) == present
+    assert listed[: len(SPRINT1_FILES)] == SPRINT1_FILES
+
+
+def test_every_published_file_shares_one_manifest(exports: dict[str, Any]) -> None:
+    run_manifest = exports["manifest.json"]["manifest"]
+    for path in WEB_DATA.glob("*.json"):
+        m = json.loads(path.read_text(encoding="utf-8"))["manifest"]
+        assert m == run_manifest, path.name
+        assert m["dataset_sha256"] == documented_sha256(), path.name
 
 
 def test_local_dataset_matches_documented_hash() -> None:

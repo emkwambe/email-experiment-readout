@@ -3,6 +3,7 @@ import { getIntegrity, getManifest, getSrm } from "@/lib/data";
 import { commitUrl, fmtInt, shortSha } from "@/lib/format";
 
 const PAGES = [
+  { href: "/results", title: "Effect estimates", body: "Revenue, visits and conversions by email, variance reduction, and effects by customer segment." },
   { href: "/plan", title: "The analysis plan", body: "Hypotheses, metrics, tests and the decision rule, fixed before any results were seen." },
   { href: "/checks", title: "Data-quality checks", body: "Integrity gates, sample-ratio check, covariate balance and planning power." },
   { href: "/how-its-built", title: "How it's built", body: "How Claude Code was used, and how its work was verified." },
@@ -18,7 +19,7 @@ export default function Home() {
       <section className="space-y-5">
         <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-sm font-medium text-accent">
           <span aria-hidden className="h-2 w-2 rounded-full bg-accent" />
-          Pre-registered · outcomes locked
+          Effects estimated · targeting pending
         </span>
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Did the emails make money, and for whom?</h1>
         <p className="max-w-2xl text-lg leading-relaxed text-muted">
@@ -32,7 +33,7 @@ export default function Home() {
           <a className="font-mono text-accent underline" href={commitUrl(m.preregistration.commit_sha)}>
             {shortSha(m.preregistration.commit_sha)}
           </a>{" "}
-          ({m.preregistration.committed_utc}). No results by email group have been computed yet.
+          ({m.preregistration.committed_utc}). Effect estimates for Sections 6–8 of the plan are now published; the cost-based decision rule and targeting analysis follow in Sprint 3.
         </p>
       </section>
 
@@ -49,7 +50,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2">
         {PAGES.map((p) => (
           <Link key={p.href} href={p.href} className="rounded-lg border border-line bg-surface p-5 hover:border-accent">
             <h3 className="font-semibold">{p.title}</h3>
