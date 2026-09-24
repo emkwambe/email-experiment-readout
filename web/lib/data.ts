@@ -198,6 +198,7 @@ export type Cuped = {
   manifest: Manifest;
   covariate: string;
   confidence_level: number;
+  correlation_spend_history: { pooled: number; by_arm: Record<string, number> };
   theta: number;
   theta_definition: string;
   history_pooled_mean: number;

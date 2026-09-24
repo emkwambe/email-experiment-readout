@@ -284,9 +284,14 @@ def cuped(df: pd.DataFrame) -> dict[str, Any]:
             "se_ratio_adjusted_to_unadjusted": a["se"] / u["se"],
             "sign_agrees": bool(np.sign(a["estimate"]) == np.sign(u["estimate"])),
         })
+    hist = by_arm(adjusted, "history")
     return {
         "covariate": "history",
         "confidence_level": CONFIDENCE_LEVEL,
+        "correlation_spend_history": {
+            "pooled": float(np.corrcoef(y, x)[0, 1]),
+            "by_arm": {a: float(np.corrcoef(raw[a], hist[a])[0, 1]) for a in BOOTSTRAP_ARM_ORDER},
+        },
         "theta": theta,
         "theta_definition": "cov(spend, history) / var(history), pooled over all arms",
         "history_pooled_mean": float(x.mean()),

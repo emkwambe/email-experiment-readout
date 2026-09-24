@@ -193,3 +193,10 @@ def test_segment_estimates_match_within_segment_means(df: pd.DataFrame, s2: dict
 def test_zip_code_segments_keep_source_spelling(s2: dict[str, Any]) -> None:
     zips = {r["segment"] for t in s2["heterogeneity.json"]["tests"] if t["dimension"] == "zip_code" for r in t["segments"]}
     assert zips == {"Rural", "Surburban", "Urban"}
+
+
+def test_cuped_correlation_export(df: pd.DataFrame, s2: dict[str, Any]) -> None:
+    corr = s2["cuped.json"]["correlation_spend_history"]
+    assert corr["pooled"] == pytest.approx(np.corrcoef(df["spend"], df["history"])[0, 1], rel=1e-12)
+    for arm, v in s2["cuped.json"]["variance_by_arm"].items():
+        assert v["variance_reduction"] <= corr["by_arm"][arm] ** 2 + 1e-12

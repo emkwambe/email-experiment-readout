@@ -126,6 +126,14 @@ export default function ResultsPage() {
             },
           }))}
         />
+        {primary.contrasts
+          .filter((c) => !c.holm_family)
+          .map((c) => (
+            <p key={c.id} className="text-sm text-muted">
+              For {c.id}, the dollar difference and the relative lift are different estimands: the relative-lift interval
+              is wider because it also carries the uncertainty in the comparison group&apos;s ({c.comparison}) mean.
+            </p>
+          ))}
         <div className={tableWrap}>
           <table className="w-full text-sm">
             <caption className="px-3 pt-3 text-left text-xs text-muted">
@@ -234,6 +242,10 @@ export default function ResultsPage() {
           <span className="num">{cuped.theta.toPrecision(3)}</span> estimated on pooled data. The unadjusted estimate
           remains the primary result. The adjustment reduced within-arm variance by at most{" "}
           <span className="num">{fmtPct(maxReduction, 3)}</span>.
+        </p>
+        <p className="text-sm">
+          CUPED produced negligible variance reduction because prior-year spend is only weakly correlated with two-week
+          spend: pooled correlation r = <span className="num">{fmtFixed(cuped.correlation_spend_history.pooled, 3)}</span>.
         </p>
         <p className="num text-xs text-muted">
           Variance reduction by arm:{" "}

@@ -7,3 +7,4 @@ web/.next/
 web/.vercel/
 .env*
 *.egg-info/
+ai-workflow/evidence/full/
