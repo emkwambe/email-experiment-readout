@@ -40,12 +40,12 @@ The project doubles as a record of AI-assisted analysis that can be checked. The
 - **Decisions stay with the human owner.** When the plan was ambiguous or a check failed, Claude Code stopped and asked. Each answer was committed as a dated Deviations entry in [`docs/analysis-plan.md`](docs/analysis-plan.md) before the data that could influence it was visible.
 - **Every caught error is logged, with its fix, in the same commit.**
 <!-- generated:corrections -->
-- **14 errors** caught and recorded in the [correction log](ai-workflow/correction-log.md): 11 from Claude Code, 3 from Claude Chat.
+- **16 errors** caught and recorded in the [correction log](ai-workflow/correction-log.md): 12 from Claude Code, 4 from Claude Chat.
 - How they were caught:
+  - Claude Code self-review: 4
+  - Human review: 4
   - Claude Code pre-check or plan review (before results): 3
-  - Claude Code self-review: 3
   - Screenshot review: 3
-  - Human review: 3
   - Automated test or guard: 2
 <!-- /generated -->
 - **Verification evidence:** [Sprint 1](ai-workflow/sprint-1-verification.md), [Sprint 2](ai-workflow/sprint-2-verification.md), [Sprint 3](ai-workflow/sprint-3-verification.md), with 390 px screenshots in [`ai-workflow/evidence/`](ai-workflow/evidence/).

@@ -21,7 +21,8 @@ REPO_ROOT: Path = Path(__file__).resolve().parents[2]
 CORRECTION_LOG = REPO_ROOT / "ai-workflow" / "correction-log.md"
 PLAN = "docs/analysis-plan.md"
 
-ENTRY_HEADING = re.compile(r"^\*\*(\d{4}-\d{2}-\d{2}) · Sprint (\d+) · (.+?)\*\*\s*$", re.M)
+# Entry heading: **YYYY-MM-DD · <phase> · <title>**, where <phase> is "Sprint N" or a release such as "v1.0.1".
+ENTRY_HEADING = re.compile(r"^\*\*(\d{4}-\d{2}-\d{2}) · ([^·*]+?) · (.+?)\*\*\s*$", re.M)
 
 # How-caught categories, first match wins (order matters). Each is (label, pattern on the "How it was caught" text).
 CAUGHT_RULES: list[tuple[str, str]] = [
@@ -89,7 +90,7 @@ def correction_entries(text: str | None = None) -> list[dict[str, Any]]:
         caught = _field(body, "How it was caught")
         origin = "Claude Chat" if "Claude Chat" in produced else "Claude Code"
         how = next(label for label, pat in CAUGHT_RULES if re.search(pat, caught, re.I | re.S))
-        entries.append({"date": h.group(1), "sprint": int(h.group(2)), "title": h.group(3), "origin": origin, "caught_by": how})
+        entries.append({"date": h.group(1), "phase": h.group(2).strip(), "title": h.group(3), "origin": origin, "caught_by": how})
     return entries
 
 
@@ -100,7 +101,7 @@ def correction_stats() -> dict[str, Any]:
         "n_entries": len(entries),
         "by_origin": dict(Counter(e["origin"] for e in entries)),
         "by_caught": dict(Counter(e["caught_by"] for e in entries)),
-        "by_sprint": {str(k): v for k, v in sorted(Counter(e["sprint"] for e in entries).items())},
+        "by_phase": dict(Counter(e["phase"] for e in entries)),
         "caught_rules": [{"label": label, "pattern": pat} for label, pat in CAUGHT_RULES],
         "origin_rule": "Claude Chat if the 'What was produced' field names Claude Chat, otherwise Claude Code",
         "entries": entries,

@@ -35,6 +35,20 @@ def test_correction_stats_are_consistent(record: dict) -> None:
     assert c["n_entries"] == len(meta.correction_entries())
 
 
+def test_every_log_heading_is_parsed() -> None:
+    # Independent count: any bold line starting with a date is an entry heading. The parser must not drop any.
+    import re
+
+    text = meta.CORRECTION_LOG.read_text(encoding="utf-8")
+    headings = re.findall(r"^\*\*\d{4}-\d{2}-\d{2} ", text, re.M)
+    assert len(headings) == len(meta.correction_entries()) > 0
+
+
+def test_parser_accepts_release_phase() -> None:
+    sample = "**2026-01-03 · v1.0.1 · C**\n- **What was produced:** Claude Chat wrote Z.\n- **How it was caught:** Human review.\n"
+    assert [(e["phase"], e["origin"]) for e in meta.correction_entries(sample)] == [("v1.0.1", "Claude Chat")]
+
+
 def test_correction_parser_on_sample() -> None:
     sample = (
         "**2026-01-01 · Sprint 1 · A**\n- **What was produced:** Claude Chat wrote X.\n- **How it was caught:** Human review.\n\n"

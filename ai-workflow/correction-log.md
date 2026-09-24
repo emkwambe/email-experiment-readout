@@ -133,3 +133,10 @@ Each entry is added in the same commit as its fix.
   - The landing-experience question is removed; the exports do not support it.
   - Sections 2, 3 and 6 also gained explicit source lines.
 - **Lesson / guard added:** Every interpretive sentence on the site must cite the specific exported fields that support it (a "Sources" line under each section of the readout), and review checks each sentence against those fields, not just the numbers.
+
+**2026-09-24 · v1.0.1 · Correction-log parser silently dropped entries not labelled "Sprint N"**
+- **What was produced:** Claude Code's Sprint 3 `liftlab/meta.py`, whose entry-heading pattern required `· Sprint <number> ·`.
+- **What was wrong:** The v1.0.1 entry (`· v1.0.1 ·`) did not match, so it was silently skipped. The published correction statistics (`timeline.json`, `/how-its-built`, README) reported 14 entries when the log had 15, and commit `c199d84` was made with that undercount. The existing consistency test compared the export against the same parser, so it could not notice.
+- **How it was caught:** Claude Code's review of the regenerated README block before tagging v1.0.1: the count had not moved after an entry was added.
+- **Fix:** The heading pattern accepts any phase label (`Sprint N` or a release such as `v1.0.1`), and entries carry a `phase` field. A new test counts entry headings with an independent pattern and fails if the parser returns a different number. Correction statistics were regenerated.
+- **Lesson / guard added:** A parser's coverage is tested against an independent count of what it should find, not only against its own output.

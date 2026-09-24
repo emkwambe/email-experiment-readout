@@ -384,9 +384,9 @@ export type WorkflowRecord = {
     n_entries: number;
     by_origin: Record<string, number>;
     by_caught: Record<string, number>;
-    by_sprint: Record<string, number>;
+    by_phase: Record<string, number>;
     origin_rule: string;
-    entries: { date: string; sprint: number; title: string; origin: string; caught_by: string }[];
+    entries: { date: string; phase: string; title: string; origin: string; caught_by: string }[];
   };
   workflow_files: string[];
 };
